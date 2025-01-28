@@ -105,4 +105,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-INSERT INTO `users` SELECT * FROM (VALUES ROW (1,'admin','$2a$10$TThFK9C/7sFwiPhg1w3eTeicjz32li8NlcAj081Ci/gll82wYvL0u',1,1,1,1,1), ROW (2,'coap_gateway_user','$2a$10$iykCU81sdbM0Yq7xa214suELSGfXb2V0lP2E/Qvwr/Lve1047RWb2',0,1,1,0,0)) src WHERE NOT EXISTS (SELECT NULL FROM users);
+INSERT INTO `users` SELECT * FROM (VALUES ROW (1,'admin','$2a$10$TThFK9C/7sFwiPhg1w3eTeicjz32li8NlcAj081Ci/gll82wYvL0u',1,1,1,1,1), ROW (2,'coap_gateway_user','$2a$10$NfohmjdVCPmlqxx.netW7OwacWzY4cHSqYwT38TPwC.KIOsONCfa.',0,1,1,0,0)) src WHERE NOT EXISTS (SELECT NULL FROM users);
