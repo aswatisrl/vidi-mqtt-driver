@@ -107,17 +107,19 @@ Launch the driver with the command
 ```console
 docker compose up -d
 ```
+The option -d (detach) allows to run the containers in background
+
 ### Monitoring
 You can access the logs in two ways:
 - Accessing the logs for each Docker container
 ```console
 docker logs <container_name> -f
 ```
+The option `-f` allows to follow log output as it grows in real time
 For example:
 ```console
 docker logs api-server -f
 ```
-The option `-f` allows to follow log output as it grows in real time
 - Accessing the log files
 The log folders are mounted on the host, so they can be accessed directly from the Host
 ```console
