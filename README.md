@@ -107,9 +107,9 @@ Launch the driver with the command
 ```console
 docker compose up -d
 ```
-### Monitoring of the service
+### Monitoring
 You can access the logs in two ways:
-- Accessing the Docker logs
+- Accessing the logs for each Docker container
 ```console
 docker logs <container_name> -f
 ```
