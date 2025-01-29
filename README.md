@@ -110,7 +110,7 @@ The default credentials are:
 - Username: admin
 - Password: admin
 
-!> **Important** At first access, change the password by clicking on the profile icon at the botton of the left sidebar
+> **Important** At first access, change the password by clicking on the profile icon at the botton of the left sidebar
 
 ### Adding devices
 ... TODO
