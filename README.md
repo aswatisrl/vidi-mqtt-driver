@@ -37,7 +37,7 @@ The container are hosted on the GitHub repository. By issuing the `docker compos
 
 Open a console on the host machine (the one that will run the containers) and run the command: 
 
-```bash
+```console
 docker login --username <GH_USERNAME> --password <GH_PASSWORD> ghcr.io
 ```
 
@@ -50,7 +50,7 @@ We provide a repository with the default Docker Compose configuration. This repo
 
 To clone this repository, you can use the following command:
 
-```bash
+```console
 git clone https://github.com/aswatisrl/vidi-mqtt-driver
 ```
 
@@ -99,8 +99,31 @@ Open the file `config-apiserver/default.json` with a text editor and:
 - In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `mqtt.username` and `mqtt.password` with the username and password you specified for the API Server user in the `compose.yaml` file (service *vernemq*)
 
 #### config-gateway / config.properties
-Open the file `config-gateway/config.properties` with a text editor and:
-- In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `MQTT.USERNAME` and `MQTT.PASSWORD` with the username and password you specified for the CoAP Gateway user in the `compose.yaml` file (service *vernemq*)
+In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to open the file `config-gateway/config.properties` with a text editor and populate the `MQTT.USERNAME` and `MQTT.PASSWORD` with the username and password you specified for the CoAP Gateway user in the `compose.yaml` file (service *vernemq*)
+You will also need to 
+
+# Launch the VIDI MQTT Driver
+Launch the driver with the command
+```console
+docker compose up -d
+```
+### Monitoring of the service
+You can access the logs in two ways:
+- Accessing the Docker logs
+```console
+docker logs <container_name> -f
+```
+For example:
+```console
+docker logs api-server -f
+```
+The option `-f` allows to follow log output as it grows in real time
+- Accessing the log files
+The log folders are mounted on the host, so they can be accessed directly from the Host
+```console
+/opt/coap_mqtt_driver/logs-apiserver
+/opt/coap_mqtt_driver/logs-gateway
+```
 
 # Initialization
 
@@ -135,13 +158,13 @@ docker restart coap-gateway
 The database stores the OSCORE context for each device. The context is the local set of information elements necessary to carry out the cryptographic operations. In case of a data loss, it won't be possible for the devices to communicate anymore with the CoAP server, and it will be necessary to trigger a new join procedure on the device by swithing the radio OFF and ON locally on the field.
 For this reason we strongly advice to configure the automatic daily backup of the database. 
 Open the crontab with the command:
-```bash
+```console
 crontab -e
 ```
 
 Append the following line in order to execute a copy (dump) of the database every night at 2 am:
 ```
-0 2  * * *    cd /opt/nbiot-server && ./dump_db.sh
+0 2  * * *    cd /opt/coap_mqtt_driver && ./dump_db.sh
 ```
 A dump of the database will be generated and copied into the folder `backup_db`, with a retention policy of 28 days
 
