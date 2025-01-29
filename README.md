@@ -110,7 +110,20 @@ The default credentials are:
 - Username: admin
 - Password: admin
 
-> **Important** At first access, change the password by clicking on the profile icon at the botton of the left sidebar
+**Important** At first access, change the password by clicking on the profile icon at the botton of the left sidebar
+
+The CoAP Gateway needs also to consume the APIs exposed by API Server. For this purpose, a default user is created in the API Server during the initialization:
+- Username: coap_gateway_user
+- Password: changeme
+
+Log out from `admin` user and log is as `coap_gateway_user`
+Once logged, change the password by clicking on the profile icon at the botton of the left sidebar
+
+At this point you need to open again the `config-gateway/config.properties` and edit the row `API.PASSWORD=changeme` replacing the default password with the new one that you just created.
+Restart the container using the commands
+```console
+docker restart coap-gateway
+```
 
 ### Adding devices
 ... TODO
@@ -132,4 +145,4 @@ Append the following line in order to execute a copy (dump) of the database ever
 ```
 A dump of the database will be generated and copied into the folder `backup_db`, with a retention policy of 28 days
 
-> If the `backup_db` folder does not exist, it will be created in the same directory of the script
+**Note** If the `backup_db` folder does not exist, it will be created in the same directory of the script
