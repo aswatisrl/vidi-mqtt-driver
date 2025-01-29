@@ -102,3 +102,14 @@ Open the file `config-apiserver/default.json` with a text editor and:
 Open the file `config-gateway/config.properties` with a text editor and:
 - In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `MQTT.USERNAME` and `MQTT.PASSWORD` with the username and password you specified for the CoAP Gateway user in the `compose.yaml` file (service *vernemq*)
 
+# Initialization
+
+### Frontend
+Log in to the web configuration page of the driver by opening a web browser and entering the url `http://127.0.0.1`
+The default credentials are:
+- Username: admin
+- Password: admin
+
+!> **Important** At first access, change the password by clicking on the profile icon at the botton of the left sidebar
+
+### Adding devices
