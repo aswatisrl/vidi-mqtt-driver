@@ -128,6 +128,7 @@ The log folders are mounted on the host, so they can be accessed directly from t
 ```
 
 # Initialization
+Once the service is started, do the following operations:
 
 ### Frontend
 Log in to the web configuration page of the driver by opening a web browser and entering the url `http://127.0.0.1`
