@@ -177,4 +177,4 @@ Append the following line in order to execute a copy (dump) of the database ever
 ```
 A dump of the database will be generated and copied into the folder `backup_db`, with a retention policy of 28 days
 
-**Note** If the `backup_db` folder does not exist, it will be created in the same directory of the script
+**Note:** If the `backup_db` folder does not exist, it will be created in the same directory of the script
