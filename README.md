@@ -76,7 +76,7 @@ Before launching Docker Compose for the first time, it is necessary to edit the 
 #### compose.yaml
 Open the file `compose.yaml` with a text editor and replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, digits and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
 
-?> According to the provided `compose.yaml` configuration file, the VerneMQ MQTT broker is started with the ALLOW_ANONYMOUS flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to ` - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
+According to the provided `compose.yaml` configuration file, the VerneMQ MQTT broker is started with the ALLOW_ANONYMOUS flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to ` - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
 
 In this case, it's necessary to add users and passwords as environment variables by adding to the compose file: ` - DOCKER_VERNEMQ_USER_<USERNAME>='password'` where `<USERNAME>` is the username you want to use.<br>This can be done as many times as necessary to create the users you want. The usernames will always be created in lowercase.
 Be aware that you will need at least one user for the API Server, one user for CoAP Gateway and one user for your application.
@@ -132,4 +132,4 @@ Append the following line in order to execute a copy (dump) of the database ever
 ```
 A dump of the database will be generated and copied into the folder `backup_db`, with a retention policy of 28 days
 
-?> If the `backup_db` folder does not exist, it will be created in the same directory of the script
+> If the `backup_db` folder does not exist, it will be created in the same directory of the script
