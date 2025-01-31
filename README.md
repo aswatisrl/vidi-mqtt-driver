@@ -111,15 +111,14 @@ You can access the logs in two ways:
 docker logs <container_name> -f
 ```
 The option `-f` allows to follow log output as it grows in real time
-For example:
+Example:
 ```console
 docker logs api-server -f
 ```
-- Accessing the log files
-The log folders are mounted on the host, so they can be accessed directly from the Host
+- Accessing the log files directly from the host
 ```console
-/opt/coap_mqtt_driver/logs-apiserver
-/opt/coap_mqtt_driver/logs-gateway
+/opt/vidi-mqtt-driver/logs-apiserver
+/opt/vidi-mqtt-driver/logs-gateway
 ```
 
 # Initialization
@@ -167,7 +166,7 @@ crontab -e
 
 Append the following line in order to execute a copy (dump) of the database every night at 2 am:
 ```
-0 2  * * *    cd /opt/coap_mqtt_driver && ./dump_db.sh
+0 2  * * *    cd /opt/vidi-mqtt-driver && ./dump_db.sh
 ```
 A dump of the database will be generated and copied into the folder `backup_db`, with a retention policy of 28 days
 
