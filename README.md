@@ -125,11 +125,12 @@ Once the service is started, do the following operations:
 
 ### Frontend
 Log in to the web configuration page of the driver by opening a web browser and entering the url `http://<HOST>`, for example `http://192.168.1.1`
+
 The default credentials are:
 - Username: admin
 - Password: admin
 
-**Important** At first access, change the password by clicking on the profile icon at the botton of the left sidebar
+**Important:** At first access, change the password by clicking on the profile icon at the botton of the left sidebar
 
 The CoAP Gateway needs also to consume the APIs exposed by API Server. For this purpose, a default user is created in the API Server during the initialization:
 - Username: coap_gateway_user
