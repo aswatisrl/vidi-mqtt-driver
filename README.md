@@ -149,7 +149,7 @@ docker restart coap-gateway
 
 ### Adding devices
 Once launched, the CoAP server is listening on port 5683 but it will not accept any connection as no security context is present.
-You need to the devices by providing for each unit:
+You need to add the devices by providing for each unit:
 - Serial (example A0000001)
 - 128-bit Root Key (example b25f88887b44dbdc4b8952b22636cb65)
 You have received this set of information when purchasing the device
