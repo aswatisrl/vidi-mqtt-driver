@@ -1,8 +1,8 @@
 # VIDI MQTT Driver
 
-The VIDI MQTT Driver is a network bridge that enables communication and data exchange between the VIDI Devices and applications.
-The driver takes care of low-level binary communication (CoAP) between the VIDI Devices and the server, allowing the third-party application to interact with the field devices using high-level protocols and formats such as MQTT and JSON.
-The driver makes the low-level communication transparent to the third-party application, hence enabling a fast development of the software connector.
+The VIDI MQTT Driver is a network bridge that enables communication and data exchange between the VIDI Devices and 3rd party applications.
+The driver takes care of low-level binary communication (CoAP) between the VIDI Devices and the server, allowing the 3rd party application to interact with the field devices using high-level protocols and formats such as MQTT and JSON.
+The driver makes the low-level communication transparent to the 3rd party application, hence enabling a fast development of the software connector.
 
 ### CoAP
 CoAP (Constrained Application Protocol) is a lightweight, RESTful communication protocol specifically designed for constrained devices and networks in the Internet of Things (IoT). It enables simple, efficient, and resource-friendly communication between devices with limited processing power, memory, and battery life, operating over lossy and low-bandwidth networks such as NB-IoT or LTE-M. CoAP typically runs over UDP (User Datagram Protocol) instead of TCP, minimizing resource usage while providing faster communication.
@@ -15,7 +15,7 @@ MQTT (Message Queuing Telemetry Transport) is a lightweight, publish-subscribe-b
 This section describes how to install the VIDI MQTT Driver with Docker Compose. Although Docker is a cross-platform containerization software, the present guide shows the installation commands for a Linux host, as this is the most common scenario.
 
 ### Docker Compose
-Docker Compose makes it possible to configure and run multiple Docker containers at once using a docker-compose.yml file.
+Docker Compose makes it possible to configure and run multiple Docker containers at once using the `compose.yml` file.
 The driver is composed by the following containers:
 
 - **mysql**: MySQL database server, used to store device configurations and frame logs
@@ -28,7 +28,6 @@ The driver is composed by the following containers:
 
 ### Requirements
 Before you continue, please make sure that you have Docker and Compose installed. Please refer to https://docs.docker.com/get-docker/ for documentation on how to install Docker.
-To get the Docker compose file
 
 ### Login to the container repository
 The container are hosted on the GitHub repository. By issuing the `docker compose up` command, Docker will try to pull the images from the GitHub repository. Since the repository is not publicly accessible, you need a valid username and password to pull the containers. You should have received the credentials *GH_USERNAME* and *GH_PASSWORD* by your sales representative.
@@ -46,17 +45,16 @@ You should see the following output:
 ### Compose repository
 We provide a repository with the default Docker Compose configuration. This repository can be found at https://github.com/aswatisrl/vidi-mqtt-driver
 
-To clone this repository, you can use the following command:
+To clone this repository, log in on the host (the machine that will run the driver) and execute the following command:
 
 ```console
+cd /opt
 git clone https://github.com/aswatisrl/vidi-mqtt-driver
 ```
 
 ### Installation package
-Download the installation package *coap_mqtt_driver.zip* and extact the content into a folder on the host. 
-The rest of guide will imply you have extracted the zip into the folder `/opt/coap_mqtt_driver` but any folder can be used. If you choose another folder, be sure to edit all the commands accordingly.
+As the result of the `git clone` command, you should now have in the folder /opt/vidi-mqtt-driver the following:
 
-The zip contains:
 - **config-apiserver**: it contains the configuration files for the API Server container
 - **config-gateway**: it contains the configuration files for the CoAP Gateway container
 - **scripts**: it contains the MySQL database initialization scripts
@@ -69,9 +67,9 @@ When the service is started for the first time, Docker will create the following
 - **logs-gateway**: will contain the logs of the CoAP Gateway
 
 ### Preliminary configuration
-Before launching Docker Compose for the first time, it is necessary to edit the following configuration files
+Before launching Docker Compose for the first time, it is necessary to edit the following 3 configuration files
 
-#### compose.yaml
+#### 1) compose.yaml
 Open the file `compose.yaml` with a text editor and replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, digits and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
 
 According to the provided `compose.yaml` configuration file, the VerneMQ MQTT broker is started with the ALLOW_ANONYMOUS flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to ` - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
@@ -90,13 +88,13 @@ vernemq:
 ```
 Caveat: passing the passwords as environment variables you cannot have a `=` character in your password.
 
-#### config-apiserver / default.json
+#### 2) config-apiserver / default.json
 Open the file `config-apiserver/default.json` with a text editor and:
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the `compose.yaml` file (service *mysql*)
 - Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used to sign and verify the JSON Web Tokens.
 - In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `mqtt.username` and `mqtt.password` with the username and password you specified for the API Server user in the `compose.yaml` file (service *vernemq*)
 
-#### config-gateway / config.properties
+#### 3) config-gateway / config.properties
 In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to open the file `config-gateway/config.properties` with a text editor and populate the `MQTT.USERNAME` and `MQTT.PASSWORD` with the username and password you specified for the CoAP Gateway user in the `compose.yaml` file (service *vernemq*)
 You will also need to 
 
