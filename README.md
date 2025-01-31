@@ -118,6 +118,7 @@ docker logs api-server -f
 2. For api-server and coap-gateway containers, the logs are also accessible from the host on the folders
 - /opt/vidi-mqtt-driver/logs-apiserver
 - /opt/vidi-mqtt-driver/logs-gateway
+
 Logs are rotated every day, with a 14-days retention period
 
 # Initialization
