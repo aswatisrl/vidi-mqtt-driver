@@ -106,7 +106,7 @@ The option `-d` (detach) allows to run the containers in background
 
 ### Monitoring
 You can access the logs in two ways:
-- Accessing the logs for each Docker container
+1. Accessing the logs for each Docker container
 ```console
 docker logs <container_name> -f
 ```
@@ -115,9 +115,10 @@ Example:
 ```console
 docker logs api-server -f
 ```
-2- For api-server and coap-gateway containers, the logs are also accessible from the host on the folders
+2. For api-server and coap-gateway containers, the logs are also accessible from the host on the folders
 - /opt/vidi-mqtt-driver/logs-apiserver
 - /opt/vidi-mqtt-driver/logs-gateway
+
 
 # Initialization
 Once the service is started, do the following operations:
