@@ -140,7 +140,7 @@ Log out from `admin` user and log is as `coap_gateway_user`
 
 Once logged, change the password by clicking on the profile icon at the botton of the left sidebar
 
-At this point you need to open again the `config-gateway/config.properties` and edit the row `API.PASSWORD=changeme` replacing the default password with the new one that you just created.
+At this point you need to open again the file `config-gateway/config.properties` and edit the row `API.PASSWORD=changeme` replacing the default password with the new one that you just created.
 Restart the container using the commands
 ```console
 docker restart coap-gateway
