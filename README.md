@@ -96,14 +96,13 @@ Open the file `config-apiserver/default.json` with a text editor and:
 
 #### 3) config-gateway / config.properties
 In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to open the file `config-gateway/config.properties` with a text editor and populate the `MQTT.USERNAME` and `MQTT.PASSWORD` with the username and password you specified for the CoAP Gateway user in the `compose.yaml` file (service *vernemq*)
-You will also need to 
 
 # Launch the VIDI MQTT Driver
 Launch the driver with the command
 ```console
 docker compose up -d
 ```
-The option -d (detach) allows to run the containers in background
+The option `-d` (detach) allows to run the containers in background
 
 ### Monitoring
 You can access the logs in two ways:
