@@ -154,7 +154,7 @@ Example:
 ```json
 {
     "reset_admin_password": true,
-    ...
+    ..
 }
 ```
 Then restart the container with the command:
