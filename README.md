@@ -151,10 +151,10 @@ docker restart coap-gateway
 In case you changed the *admin* password but you lost the password, you can force the API Server to reset by opening the file `config-apiserver/default.json` with a text editor and change the parameter `reset_admin_password` to true.
 
 Example:
-```json
+```
 {
     "reset_admin_password": true,
-    ..
+    ...
 }
 ```
 Then restart the container with the command:
