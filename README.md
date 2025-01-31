@@ -45,7 +45,7 @@ You should see the following output:
 ### Compose repository
 We provide a repository with the default Docker Compose configuration. This repository can be found at https://github.com/aswatisrl/vidi-mqtt-driver
 
-To clone this repository, log in on the host (the machine that will run the driver) and execute the following command:
+To clone this repository, open a console on the host (the machine that will run the driver) and execute the following command:
 
 ```console
 cd /opt
@@ -70,9 +70,9 @@ When the service is started for the first time, Docker will create the following
 Before launching Docker Compose for the first time, it is necessary to edit the following 3 configuration files
 
 #### 1) compose.yaml
-Open the file `compose.yaml` with a text editor and replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, digits and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
+Open the file `compose.yaml` with a text editor and replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
 
-According to the provided `compose.yaml` configuration file, the VerneMQ MQTT broker is started with the ALLOW_ANONYMOUS flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to ` - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
+According to the provided `compose.yaml` configuration file, the VerneMQ MQTT broker is started with the `ALLOW_ANONYMOUS` flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to ` - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
 
 In this case, it's necessary to add users and passwords as environment variables by adding to the compose file: ` - DOCKER_VERNEMQ_USER_<USERNAME>='password'` where `<USERNAME>` is the username you want to use.<br>This can be done as many times as necessary to create the users you want. The usernames will always be created in lowercase.
 Be aware that you will need at least one user for the API Server, one user for CoAP Gateway and one user for your application.
@@ -91,7 +91,7 @@ Caveat: passing the passwords as environment variables you cannot have a `=` cha
 #### 2) config-apiserver / default.json
 Open the file `config-apiserver/default.json` with a text editor and:
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the `compose.yaml` file (service *mysql*)
-- Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used to sign and verify the JSON Web Tokens.
+- Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
 - In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `mqtt.username` and `mqtt.password` with the username and password you specified for the API Server user in the `compose.yaml` file (service *vernemq*)
 
 #### 3) config-gateway / config.properties
