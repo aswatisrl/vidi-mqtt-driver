@@ -20,17 +20,15 @@ The driver is composed by the following containers:
 
 - **mysql**: MySQL database server, used to store device configurations and frame logs
 - **vernemq**: MQTT broker
-- **api-server**
+- **api-server**: API Server, the engine behind the driver
 - **coap-gateway**: CoAP Gateway based on the Open Source project [Californium](https://eclipse.dev/californium)
-- **frontend**: Web frontend for configuration of the driver
+- **frontend**: Web frontend for configuration of the driver and API documentation
 - **redis**: in-memory key–value database, cache and message broker
 - **ntp**: NTP server used to provide synchronization service to the field devices
-
 
 ### Requirements
 Before you continue, please make sure that you have Docker and Compose installed. Please refer to https://docs.docker.com/get-docker/ for documentation on how to install Docker.
 To get the Docker compose file
-
 
 ### Login to the container repository
 The container are hosted on the GitHub repository. By issuing the `docker compose up` command, Docker will try to pull the images from the GitHub repository. Since the repository is not publicly accessible, you need a valid username and password to pull the containers. You should have received the credentials *GH_USERNAME* and *GH_PASSWORD* by your sales representative.
