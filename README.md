@@ -124,7 +124,7 @@ Logs are rotated every day, with a 14-days retention period
 Once the service is started, do the following operations:
 
 ### Frontend
-Log in to the web configuration page of the driver by opening a web browser and entering the url `http://127.0.0.1`
+Log in to the web configuration page of the driver by opening a web browser and entering the url `http://<HOST>`, for example `http://192.168.1.1`
 The default credentials are:
 - Username: admin
 - Password: admin
