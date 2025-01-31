@@ -115,11 +115,9 @@ Example:
 ```console
 docker logs api-server -f
 ```
-- Accessing the log files directly from the host
-```console
-/opt/vidi-mqtt-driver/logs-apiserver
-/opt/vidi-mqtt-driver/logs-gateway
-```
+2- For api-server and coap-gateway containers, the logs are also accessible from the host on the folders
+- /opt/vidi-mqtt-driver/logs-apiserver
+- /opt/vidi-mqtt-driver/logs-gateway
 
 # Initialization
 Once the service is started, do the following operations:
