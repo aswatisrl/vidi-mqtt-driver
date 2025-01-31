@@ -147,6 +147,26 @@ Restart the container using the commands
 docker restart coap-gateway
 ```
 
+### Password recovery
+In case you changed the *admin* password but you lost the password, you can force the API Server to reset by opening the file `config-apiserver/default.json` with a text editor and change the parameter `reset_admin_password` to true.
+
+Example:
+```json
+{
+    "reset_admin_password": true,
+    ...
+}
+```
+Then restart the container with the command:
+```console
+docker restart api-server
+```
+
+Now you can access the frontend `http://<host>` with `admin/admin` credentials and change the password as indicated above.
+
+Once the password is reset, do not forget to open again the file `config-apiserver/default.json`, revert the configuration to `"reset_admin_password": false` and restart the container with the same command.
+Otherwise the *admin* password will be reset to the default at each restart
+
 ### Adding devices
 Once launched, the CoAP server is listening on port 5683 but it will not accept any connection as no security context is present.
 You need to add the devices by providing for each unit:
