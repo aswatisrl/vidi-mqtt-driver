@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `device_types` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`device_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-INSERT INTO `device_types` SELECT * FROM (VALUES ROW ('14','VIDI Open Close'), ROW ('16','VIDI Flow'), ROW ('17','VIDI Pressure'), ROW ('18','VIDI Temp'), ROW ('23','VIDI Level'), ROW ('28','VIDI PRV')) src WHERE NOT EXISTS (SELECT NULL FROM device_types);
+INSERT INTO `device_types` SELECT * FROM (VALUES ROW ('14','VIDI Open Close'), ROW ('16','VIDI Flow'), ROW ('17','VIDI Pressure'), ROW ('18','VIDI Temp'), ROW ('23','VIDI Level'), ROW ('24','VIDI Positioner'), ROW ('28','VIDI PRV')) src WHERE NOT EXISTS (SELECT NULL FROM device_types);
 CREATE TABLE IF NOT EXISTS `devices` (
   `serial` varchar(8) NOT NULL,
   `insert_date` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `hardware_types` (
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`hw_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-INSERT INTO `hardware_types` SELECT * FROM (VALUES ROW ('100','VIDI Transmitter ver 2024, based on Nordic nRF9160')) src WHERE NOT EXISTS (SELECT NULL FROM hardware_types);
+INSERT INTO `hardware_types` SELECT * FROM (VALUES ROW ('TR2_0','VIDI Transmitter ver 2024, based on Nordic nRF9160')) src WHERE NOT EXISTS (SELECT NULL FROM hardware_types);
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) DEFAULT NULL,
