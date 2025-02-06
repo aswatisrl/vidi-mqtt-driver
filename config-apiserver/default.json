@@ -15,10 +15,13 @@
         "topic_downlink": "downlink/{{uuid}}",
         "topic_ack": "ack"
     },
-	"redis": {
-		"host": "redis",
-		"port": 6379
-	},
+    "redis": {
+	"host": "redis",
+	"port": 6379
+    },
+    "data_retention": {
+        "days": 30
+    },
     "db": {
         "host": "mysql",
         "port": 3306,
