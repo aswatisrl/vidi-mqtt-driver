@@ -1,6 +1,6 @@
 # VIDI MQTT Driver
 
-The VIDI MQTT Driver is a network bridge that enables communication and data exchange between the VIDI Devices and 3rd party applications.
+The VIDI MQTT Driver is a network bridge that enables communication between the VIDI Devices and 3rd party applications.
 The driver takes care of low-level binary communication (CoAP) between the VIDI Devices and the server, allowing the 3rd party application to interact with the field devices using high-level protocols and formats such as MQTT and JSON.
 The driver makes the low-level communication transparent to the 3rd party application, hence enabling a fast development of the software connector.
 
