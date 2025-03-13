@@ -41,6 +41,8 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `recipient_replay_size` int DEFAULT NULL,
   `sender_seq` int DEFAULT NULL,
   `firmware` varchar(45) DEFAULT NULL,
+  `last_fota` datetime DEFAULT NULL,
+  `last_fota_status` int DEFAULT NULL,
   `notes` text,
   PRIMARY KEY (`serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
