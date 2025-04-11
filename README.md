@@ -55,7 +55,6 @@ git clone https://github.com/aswatisrl/vidi-mqtt-driver
 ### Installation package
 As the result of the `git clone` command, you should now have in the folder /opt/vidi-mqtt-driver the following:
 
-- **config-apiserver**: it contains the configuration files for the API Server container
 - **config-gateway**: it contains the configuration files for the CoAP Gateway container
 - **scripts**: it contains the MySQL database initialization scripts
 - **compose.yaml**: Docker Compose file
