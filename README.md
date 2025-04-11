@@ -69,7 +69,16 @@ When the service is started for the first time, Docker will create the following
 Before launching Docker Compose for the first time, it is necessary to edit the following 3 configuration files
 
 #### 1) compose.yaml
-Open the file `compose.yaml` with a text editor and replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
+Open the file `compose.yaml` with a text editor and edit the following:
+
+- Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
+
+#### 2) config-apiserver / default.json
+Open the file `config-apiserver/default.json` with a text editor and:
+- Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the `compose.yaml` file (service *mysql*)
+- Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
+- In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `mqtt.username` and `mqtt.password` with the username and password you specified for the API Server user in the `compose.yaml` file (service *vernemq*)
+
 
 According to the provided `compose.yaml` configuration file, the VerneMQ MQTT broker is started with the `ALLOW_ANONYMOUS` flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to ` - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
 
@@ -87,13 +96,8 @@ vernemq:
 ```
 Caveat: passing the passwords as environment variables you cannot have a `=` character in your password.
 
-#### 2) config-apiserver / default.json
-Open the file `config-apiserver/default.json` with a text editor and:
-- Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the `compose.yaml` file (service *mysql*)
-- Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
-- In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `mqtt.username` and `mqtt.password` with the username and password you specified for the API Server user in the `compose.yaml` file (service *vernemq*)
 
-#### 3) config-gateway / config.properties
+#### 2) config-gateway / config.properties
 In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to open the file `config-gateway/config.properties` with a text editor and populate the `MQTT.USERNAME` and `MQTT.PASSWORD` with the username and password you specified for the CoAP Gateway user in the `compose.yaml` file (service *vernemq*)
 
 # Launch the VIDI MQTT Driver
