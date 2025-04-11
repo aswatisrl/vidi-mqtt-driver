@@ -71,7 +71,7 @@ Before launching Docker Compose for the first time, it is necessary to edit the 
 #### 1) compose.yaml
 Open the file `compose.yaml` with a text editor and edit the following:
 
-`Service mysql`
+#### `Service mysql`
 - Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
 
 Service `api-server`
