@@ -138,7 +138,7 @@ Log out from `admin` user and log is as `coap_gateway_user`
 
 Once logged, change the password by clicking on the profile icon at the botton of the left sidebar
 
-At this point you need to open the file `compose.yaml` and edit the line `API_PASSWORD=changeme` in the *coap-server* section, replacing the default password with the new one that you just created.
+At this point you need to open the file `compose.yaml` and edit the line `API_PASSWORD=changeme` in the *coap-gateway* section, replacing the default password with the new one that you just created.
 Restart the containers using the commands
 ```console
 docker compose down && docker compose up -d
