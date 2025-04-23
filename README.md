@@ -67,7 +67,7 @@ When the service is started for the first time, Docker will create the following
 ### Preliminary configuration
 Before launching Docker Compose for the first time, it is necessary to edit the configuration. Open the file `compose.yaml` with a text editor and edit the following:
 
-#### `Service mysql`
+#### Service `mysql`
 - Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
 
 #### Service `api-server`
@@ -93,7 +93,7 @@ vernemq:
 Caveat: passing the passwords as environment variables you cannot have a `=` character in your password.
 
 #### Service `coap-gateway`
-In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` with the username and password you specified for the service *vernemq*
+In case you disabled the anonymous login in the the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
 
 # Launch the VIDI MQTT Driver
 Launch the driver with the command
