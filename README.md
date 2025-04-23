@@ -71,7 +71,6 @@ Before launching Docker Compose for the first time, it is necessary to edit the 
 - Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
 
 #### Service `api-server`
-Open the file `config-apiserver/default.json` with a text editor and:
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the `compose.yaml` file (service *mysql*)
 - Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
 - In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `mqtt.username` and `mqtt.password` with the username and password you specified for the API Server user in the `compose.yaml` file (service *vernemq*)
@@ -93,9 +92,8 @@ vernemq:
 ```
 Caveat: passing the passwords as environment variables you cannot have a `=` character in your password.
 
-
 #### Service `coap-gateway`
-In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to open the file `config-gateway/config.properties` with a text editor and populate the `MQTT.USERNAME` and `MQTT.PASSWORD` with the username and password you specified for the CoAP Gateway user in the `compose.yaml` file (service *vernemq*)
+In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` with the username and password you specified for the service *vernemq*
 
 # Launch the VIDI MQTT Driver
 Launch the driver with the command
