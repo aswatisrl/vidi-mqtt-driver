@@ -70,13 +70,13 @@ Before launching Docker Compose for the first time, it is necessary to edit the 
 #### Service `mysql`
 - Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
 
+#### Service `vernemq`
+According to the default configuration, the VerneMQ MQTT broker is started with the `ALLOW_ANONYMOUS` flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to ` - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
+
 #### Service `api-server`
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
 - Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
-- In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `mqtt.username` and `mqtt.password` with the username and password you specified for the API Server user in the `compose.yaml` file (service *vernemq*)
-
-
-According to the provided `compose.yaml` configuration file, the VerneMQ MQTT broker is started with the `ALLOW_ANONYMOUS` flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to ` - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
+- In case you disabled the anonymous login in the the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
 
 In this case, it's necessary to add users and passwords as environment variables by adding to the compose file: ` - DOCKER_VERNEMQ_USER_<USERNAME>='password'` where `<USERNAME>` is the username you want to use.<br>This can be done as many times as necessary to create the users you want. The usernames will always be created in lowercase.
 Be aware that you will need at least one user for the API Server, one user for CoAP Gateway and one user for your application.
