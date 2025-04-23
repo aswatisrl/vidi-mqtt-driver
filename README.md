@@ -71,7 +71,7 @@ Before launching Docker Compose for the first time, it is necessary to edit the 
 - Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
 
 #### Service `api-server`
-- Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the `compose.yaml` file (service *mysql*)
+- Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
 - Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
 - In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to populate the `mqtt.username` and `mqtt.password` with the username and password you specified for the API Server user in the `compose.yaml` file (service *vernemq*)
 
