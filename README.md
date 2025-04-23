@@ -65,16 +65,12 @@ When the service is started for the first time, Docker will create the following
 - **logs-gateway**: will contain the logs of the CoAP Gateway
 
 ### Preliminary configuration
-Before launching Docker Compose for the first time, it is necessary to edit the following 3 configuration files
-
-#### 1) compose.yaml
-Open the file `compose.yaml` with a text editor and edit the following:
+Before launching Docker Compose for the first time, it is necessary to edit the configuration. Open the file `compose.yaml` with a text editor and edit the following:
 
 #### `Service mysql`
 - Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
 
-Service `api-server`
-#### 2) config-apiserver / default.json
+#### Service `api-server`
 Open the file `config-apiserver/default.json` with a text editor and:
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the `compose.yaml` file (service *mysql*)
 - Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
@@ -98,7 +94,7 @@ vernemq:
 Caveat: passing the passwords as environment variables you cannot have a `=` character in your password.
 
 
-#### 2) config-gateway / config.properties
+#### Service `coap-gateway`
 In case you disabled the anonymous login in the MQTT section of the `compose.yaml` file, you need to open the file `config-gateway/config.properties` with a text editor and populate the `MQTT.USERNAME` and `MQTT.PASSWORD` with the username and password you specified for the CoAP Gateway user in the `compose.yaml` file (service *vernemq*)
 
 # Launch the VIDI MQTT Driver
