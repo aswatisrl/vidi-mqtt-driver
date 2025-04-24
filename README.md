@@ -89,10 +89,10 @@ Caveat: passing the passwords as environment variables you cannot have a `=` cha
 #### Service `api-server`
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
 - Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
-- In case you disabled the anonymous login in the the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
+- In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
 
 #### Service `coap-gateway`
-In case you disabled the anonymous login in the the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
+In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
 
 # Launch the VIDI MQTT Driver
 Launch the driver with the command
