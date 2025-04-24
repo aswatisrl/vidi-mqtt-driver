@@ -145,24 +145,16 @@ docker compose down && docker compose up -d
 ```
 
 ### Password recovery
-In case you changed the *admin* password but you lost the password, you can force the API Server to reset by opening the file `config-apiserver/default.json` with a text editor and change the parameter `reset_admin_password` to true.
+In case you changed the *admin* password but you lost the password, you can force the API Server to reset by opening the file `compose.yaml` with a text editor and change the parameter `RESET_ADMIN_PASSWORD=false` to `RESET_ADMIN_PASSWORD=true` in the *api-server* service.
 
-Example:
-```
-{
-    "reset_admin_password": true,
-    ...
-}
-```
-Then restart the container with the command:
+Finally, restart the containers using the commands
 ```console
-docker restart api-server
+docker compose down && docker compose up -d
 ```
 
 Now you can access the frontend `http://<host>` with `admin/admin` credentials and change the password as indicated above.
 
-Once the password is reset, do not forget to open again the file `config-apiserver/default.json`, revert the configuration to `"reset_admin_password": false` and restart the container with the same command.
-Otherwise the *admin* password will be reset to the default at each restart
+Once the password is reset, do not forget to open again the file`compose.yaml`, revert the configuration to `RESET_ADMIN_PASSWORD=false` and restart the container with the same command. Otherwise the *admin* password will be reset to the default at each restart
 
 ### Adding devices
 Once launched, the CoAP server is listening on port 5683 but it will not accept any connection as no security context is present.
