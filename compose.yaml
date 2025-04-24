@@ -9,8 +9,8 @@ services:
     ports:
       - '3306:3306'
     volumes:
-      - /opt/nbiot-server/scripts:/opt/scripts
-      - /opt/nbiot-server/db_data:/var/lib/mysql
+      - ./scripts:/opt/scripts
+      - ./db_data:/var/lib/mysql
       
   vernemq:
     image: vernemq/vernemq:2.0.1
@@ -30,8 +30,24 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - /opt/nbiot-server/logs-apiserver:/usr/src/app/logs
-      - /opt/nbiot-server/config-apiserver:/usr/src/app/config
+      - ./logs-apiserver:/usr/src/app/logs
+    environment:
+      - RESET_ADMIN_PASSWORD=false
+      - HTTP_PORT=8080
+      - MQTT_CONN_STRING=mqtt://vernemq:1883
+      - MQTT_USERNAME=
+      - MQTT_PASSWORD=
+      - MQTT_CLIENTID=apiserver
+      - MQTT_QOS=1
+      - DATA_RETENTION=30
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
+      - DB_SCHEMA=nbiot_server
+      - JWT_PRIVATE_KEY=<JWT_SECRET_KEY>
 
   coap-gateway:
     image: ghcr.io/aswatisrl/coap-gateway:latest
@@ -40,12 +56,23 @@ services:
     ports:
       - 5683:5683/udp
     volumes:
-      - /opt/nbiot-server/logs-gateway:/opt/coap_server/logs
-      - /opt/nbiot-server/config-gateway:/opt/coap_server/config
+      - ./logs-gateway:/opt/coap_server/logs
+    environment:
+      - API_USERNAME=coap_gateway_user
+      - API_PASSWORD=changeme
+      - API_HOST=api-server
+      - API_PORT=8080
+      - COAP_HOST=0.0.0.0
+      - COAP_LOCAL_PORT=5683
+      - COAP_REMOTE_PORT=5683
+      - MQTT_CONN_STRING=tcp://vernemq:1883
+      - MQTT_USERNAME=
+      - MQTT_PASSWORD=
+      - MQTT_QOS=1
 
-  coap-frontend:
+  frontend:
     image: ghcr.io/aswatisrl/coap-frontend:latest
-    container_name: coap-frontend
+    container_name: frontend
     restart: always
     ports:
       - 80:80/tcp
