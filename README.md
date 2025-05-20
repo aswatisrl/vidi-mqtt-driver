@@ -94,7 +94,7 @@ Caveat: passing the passwords as environment variables you cannot have a `=` cha
 
 #### Service `coap-monitor`
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
-- Edit the DATA_RETENTION environmental parameter with the number of days the uplink logs should be stored in the database
+- Edit the `DATA_RETENTION` environmental parameter with desidered retention for the uplink records in the database. The retention is expressed in days.
 
 #### Service `coap-gateway`
 In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
