@@ -22,6 +22,7 @@ services:
     environment:
       - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
       - DOCKER_VERNEMQ_ACCEPT_EULA=yes
+      - DOCKER_VERNEMQ_MAX_INFLIGHT_MESSAGES=1000
 
   api-server:
     image: ghcr.io/aswatisrl/coap-apiserver:latest
@@ -39,7 +40,6 @@ services:
       - MQTT_PASSWORD=
       - MQTT_CLIENTID=apiserver
       - MQTT_QOS=1
-      - DATA_RETENTION=30
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - DB_HOST=mysql
@@ -48,6 +48,29 @@ services:
       - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
       - DB_SCHEMA=nbiot_server
       - JWT_PRIVATE_KEY=<JWT_SECRET_KEY>
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/api/info"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  coap-monitor:
+    image: ghcr.io/aswatisrl/coap-monitor:latest
+    container_name: coap-monitor
+    restart: always
+    environment:
+      - MQTT_CONN_STRING=mqtt://vernemq:1883
+      - MQTT_USERNAME=
+      - MQTT_PASSWORD=
+      - MQTT_CLIENTID=apiserver
+      - MQTT_QOS=1
+      - DATA_RETENTION=30
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
+      - DB_SCHEMA=nbiot_server
 
   coap-gateway:
     image: ghcr.io/aswatisrl/coap-gateway:latest
@@ -69,6 +92,9 @@ services:
       - MQTT_USERNAME=
       - MQTT_PASSWORD=
       - MQTT_QOS=1
+    depends_on:
+      api-server:
+        condition: service_healthy
 
   frontend:
     image: ghcr.io/aswatisrl/coap-frontend:latest
