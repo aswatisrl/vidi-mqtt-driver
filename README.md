@@ -22,6 +22,7 @@ The driver is composed by the following containers:
 - **vernemq**: MQTT broker
 - **api-server**: API Server, the engine behind the driver
 - **coap-gateway**: CoAP Gateway based on the Open Source project [Californium](https://eclipse.dev/californium)
+- **coap-monitor**: The service that manages low-priority tasks, such as writing logs and cleaning records
 - **frontend**: Web frontend for configuration of the driver and API documentation
 - **redis**: in-memory key–value database, cache and message broker
 - **ntp**: NTP server used to provide synchronization service to the field devices
@@ -89,7 +90,11 @@ Caveat: passing the passwords as environment variables you cannot have a `=` cha
 #### Service `api-server`
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
 - Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
-- In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
+- In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above.
+
+#### Service `coap-monitor`
+- Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
+- Edit the DATA_RETENTION environmental parameter with the number of days the uplink logs should be stored in the database
 
 #### Service `coap-gateway`
 In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
