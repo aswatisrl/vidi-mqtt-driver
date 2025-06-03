@@ -41,7 +41,7 @@ The containers are hosted in a GitHub repository. By issuing the `docker compose
 Open a console on the host machine (the one that will run the containers) and run the command: 
 
 ```console
-docker login --username <GH_USERNAME> --password <GH_PASSWORD> ghcr.io
+echo <GH_PASSWORD> | docker login ghcr.io -u <GH_USERNAME> --password-stdin
 ```
 
 You should see the following output:
