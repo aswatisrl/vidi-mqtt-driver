@@ -91,7 +91,6 @@ vernemq:
     - DOCKER_VERNEMQ_USER_appuser='12345678'
 ```
 Caveat: passing the passwords as environment variables you cannot have a `=` character in your password.
-Consider using Docker secrets for improved security in production environments.
 
 #### Service `api-server`
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
@@ -140,7 +139,7 @@ The default credentials are:
 - Password: *admin*
 
 
-**⚠️ Important:** At first access, change the password by clicking on the profile icon at the bottom of the left sidebar
+** Important:** At first access, change the password by clicking on the profile icon at the bottom of the left sidebar
 
 
 The CoAP Gateway needs also to consume the APIs exposed by API Server. For this purpose, a default user is created in the API Server during the initialization:
@@ -206,18 +205,19 @@ To ensure safe and secure operation of the VIDI MQTT Driver in production enviro
 
 ### Password & Credentials Management
 
-- **Change all default passwords immediately** after installation (e.g., `admin/admin`, `coap_gateway_user/changeme`).
+- Change all default passwords immediately after installation (e.g., `admin/admin`, `coap_gateway_user/changeme`).
 - Use strong passwords containing uppercase, lowercase, numbers, and symbols.
 - Avoid storing secrets (e.g., database passwords, JWT secrets) directly in the `compose.yaml` file.
-- For production environments, consider using [Docker secrets](https://docs.docker.com/engine/swarm/secrets/) or environment injection from a secure secret manager (e.g., HashiCorp Vault, AWS Secrets Manager).
+- Consider using [Docker secrets](https://docs.docker.com/engine/swarm/secrets/) or environment injection from a secure secret manager.
 
-### 🔐 MQTT Broker Hardening (VerneMQ)
+### MQTT Broker Hardening (VerneMQ)
 
 - **Disable anonymous access**: Set `DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off` in the `compose.yaml` file.
 - Create separate MQTT users for each service (API Server, CoAP Gateway, application clients).
 - Regularly rotate MQTT credentials and avoid reusing passwords across services.
+- Enable MQTTS if the broker is accessed over public networks.
 
-### 🔒 Network Exposure
+### Network Exposure
 
 - Expose only necessary ports to external networks:
   - Frontend (e.g., port 80 or 443)
@@ -225,20 +225,16 @@ To ensure safe and secure operation of the VIDI MQTT Driver in production enviro
   - CoAP (port 5683) only if field devices are not on a private network
 - Use firewall rules or Docker network isolation to restrict access to internal services like MySQL, Redis, and API Server.
 - For secure remote access, use a VPN or reverse proxy (e.g., Nginx, Traefik) with HTTPS.
+- Enable HTTPS if the web app is accessed over public networks.
 
-### 🛡️ API Security
 
-- Use a long, randomly generated `JWT_SECRET_KEY` (at least 32 characters).
-- Ensure API users have the minimum necessary privileges.
-- Enable HTTPS if the API or frontend is accessed over public networks.
-
-### 📅 Auditing & Monitoring
+### Auditing & Monitoring
 
 - Monitor logs of all containers using tools like `docker logs`, or forward logs to a centralized system (e.g., ELK Stack, Grafana Loki).
 - Review logs regularly for signs of unauthorized access or abnormal activity.
 - Set up alerts for critical events such as login failures, container restarts, or missing backups.
 
-### 📦 System Updates
+### System Updates
 
 - Keep Docker images up to date by regularly pulling from the repository.
 - Monitor for updates to the VIDI MQTT Driver GitHub repository.
