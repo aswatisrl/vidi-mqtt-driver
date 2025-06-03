@@ -205,34 +205,23 @@ To ensure safe and secure operation of the VIDI MQTT Driver in production enviro
 
 ### Password & Credentials Management
 
-- Change all default passwords immediately after installation (e.g., `admin/admin`, `coap_gateway_user/changeme`).
-- Use strong passwords containing uppercase, lowercase, numbers, and symbols.
-- Avoid storing secrets (e.g., database passwords, JWT secrets) directly in the `compose.yaml` file.
-- Consider using [Docker secrets](https://docs.docker.com/engine/swarm/secrets/) or environment injection from a secure secret manager.
+- Change all default passwords immediately after installation (e.g., `admin/admin`, `coap_gateway_user/changeme`)
+- Use strong passwords containing uppercase, lowercase, numbers, and symbols
+- Regularly rotate credentials and avoid reusing passwords across services
+- Consider using [Docker secrets](https://docs.docker.com/engine/swarm/secrets/) or environment injection from a secure secret manager
 
-### MQTT Broker Hardening (VerneMQ)
+### MQTT
 
-- **Disable anonymous access**: Set `DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off` in the `compose.yaml` file.
-- Create separate MQTT users for each service (API Server, CoAP Gateway, application clients).
-- Regularly rotate MQTT credentials and avoid reusing passwords across services.
-- Enable MQTTS if the broker is accessed over public networks.
+- Enable MQTTS and disable anonymous access if the broker is accessed over public networks
+- Create separate MQTT users for each service (API Server, CoAP Gateway, application clients)
 
 ### Network Exposure
 
-- Expose only necessary ports to external networks:
-  - Frontend (e.g., port 80 or 443)
-  - MQTT (e.g., port 1883 or 8883) if required by external applications
-  - CoAP (port 5683) only if field devices are not on a private network
-- Use firewall rules or Docker network isolation to restrict access to internal services like MySQL, Redis, and API Server.
-- For secure remote access, use a VPN or reverse proxy (e.g., Nginx, Traefik) with HTTPS.
-- Enable HTTPS if the web app is accessed over public networks.
-
-
-### Auditing & Monitoring
-
-- Monitor logs of all containers using tools like `docker logs`, or forward logs to a centralized system (e.g., ELK Stack, Grafana Loki).
-- Review logs regularly for signs of unauthorized access or abnormal activity.
-- Set up alerts for critical events such as login failures, container restarts, or missing backups.
+- Configure your firewall in order to expose only necessary ports to external networks:
+  - Frontend (port 80/tcp or 443/tcp)
+  - MQTT (port 1883/tcp or 8883/tcp) if required by external applications
+  - CoAP (port 5683/udp) and NTP (port 123/udp) only if field devices are not on a private network
+- For secure remote access of the frontend, use a VPN or reverse proxy with HTTPS.
 
 ### System Updates
 
