@@ -186,7 +186,7 @@ Access the *Devices* page on the frontend. You can add one device manually (*Add
 
 # Backup
 
-The database stores the OSCORE context for each device. The context is the local set of information elements necessary to carry out the cryptographic operations. In case of a data loss, it won't be possible for the devices to communicate anymore with the CoAP server, and it will be necessary to trigger a new join procedure on the device by switching the radio OFF and ON locally on the field.
+The database stores the OSCORE context for each device. The context is the local set of information elements necessary to carry out the cryptographic operations. In case of a data loss, it won't be possible for the devices to communicate anymore with the CoAP server. The devices will receive a `401 Unauthorized` status, and it will be forced to start a new join procedure on the device.
 
 For this reason we strongly advice to configure the automatic daily backup of the database. 
 Open the crontab with the command:
