@@ -179,7 +179,8 @@ You should have received this set of information when purchasing the device. If 
 
 It's also possible to specify a textual note for each device, for easy asset management
 
-Access the *Devices* page on the Frontend. You can add one device manually (*Add new device* button) or import multiple devices by providing a CSV file (*Add devices from file* button) 
+Access the *Devices* page on the frontend. You can add one device manually (*Add new device* button) or import multiple devices by providing a CSV file (*Add devices from file* button) 
+
 
 # Backup
 
@@ -198,3 +199,47 @@ Append the following line in order to execute a copy (dump) of the database ever
 A database dump will be saved in the `backup_db` folder with a 28-day retention policy. The script deletes the backups older than 28 days at the end of the execution.
 
 **Note:** If the `backup_db` folder does not exist, it will be created in the same directory of the script
+
+# Security Best Practices
+
+To ensure safe and secure operation of the VIDI MQTT Driver in production environments, follow these recommendations:
+
+### Password & Credentials Management
+
+- **Change all default passwords immediately** after installation (e.g., `admin/admin`, `coap_gateway_user/changeme`).
+- Use strong passwords containing uppercase, lowercase, numbers, and symbols.
+- Avoid storing secrets (e.g., database passwords, JWT secrets) directly in the `compose.yaml` file.
+- For production environments, consider using [Docker secrets](https://docs.docker.com/engine/swarm/secrets/) or environment injection from a secure secret manager (e.g., HashiCorp Vault, AWS Secrets Manager).
+
+### 🔐 MQTT Broker Hardening (VerneMQ)
+
+- **Disable anonymous access**: Set `DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off` in the `compose.yaml` file.
+- Create separate MQTT users for each service (API Server, CoAP Gateway, application clients).
+- Regularly rotate MQTT credentials and avoid reusing passwords across services.
+
+### 🔒 Network Exposure
+
+- Expose only necessary ports to external networks:
+  - Frontend (e.g., port 80 or 443)
+  - MQTT (e.g., port 1883 or 8883) if required by external applications
+  - CoAP (port 5683) only if field devices are not on a private network
+- Use firewall rules or Docker network isolation to restrict access to internal services like MySQL, Redis, and API Server.
+- For secure remote access, use a VPN or reverse proxy (e.g., Nginx, Traefik) with HTTPS.
+
+### 🛡️ API Security
+
+- Use a long, randomly generated `JWT_SECRET_KEY` (at least 32 characters).
+- Ensure API users have the minimum necessary privileges.
+- Enable HTTPS if the API or frontend is accessed over public networks.
+
+### 📅 Auditing & Monitoring
+
+- Monitor logs of all containers using tools like `docker logs`, or forward logs to a centralized system (e.g., ELK Stack, Grafana Loki).
+- Review logs regularly for signs of unauthorized access or abnormal activity.
+- Set up alerts for critical events such as login failures, container restarts, or missing backups.
+
+### 📦 System Updates
+
+- Keep Docker images up to date by regularly pulling from the repository.
+- Monitor for updates to the VIDI MQTT Driver GitHub repository.
+- Apply OS and security patches on the host system to reduce vulnerability exposure.
