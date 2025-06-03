@@ -186,7 +186,7 @@ Access the *Devices* page on the frontend. You can add one device manually (*Add
 
 # Backup
 
-The database stores the OSCORE context for each device. The context is the local set of information elements necessary to carry out the cryptographic operations. In case of a data loss, it won't be possible for the devices to communicate anymore with the CoAP server. The devices will receive a `401 Unauthorized` status, and it will be forced to start a new join procedure on the device.
+The database stores the OSCORE context for each device. The context is the local set of information elements necessary to carry out the cryptographic operations. In case of a data loss, it won't be possible for the devices to communicate anymore with the CoAP server. The device will receive a `401 Unauthorized` status, and it will be forced to start a new join procedure on the device.
 
 For this reason we strongly advice to configure the automatic daily backup of the database. 
 Open the crontab with the command:
@@ -198,13 +198,13 @@ Append the following line in order to execute a copy (dump) of the database ever
 ```
 0 2  * * *    cd /opt/vidi-mqtt-driver && ./dump_db.sh
 ```
-A database dump will be saved in the `backup_db` folder with a 28-day retention policy. The script deletes the backups older than 28 days at the end of the execution.
+A database dump will be saved in the `backup_db` folder. The script deletes the backup files which are older than 28 days at the end of the execution.
 
 **Note:** If the `backup_db` folder does not exist, it will be created in the same directory of the script
 
 # Security Best Practices
 
-To ensure safe and secure operation of the VIDI MQTT Driver in production environments, follow these recommendations:
+To ensure secure operation of the VIDI MQTT Driver in production environments, follow these recommendations:
 
 ### Password & Credentials Management
 
@@ -218,13 +218,16 @@ To ensure safe and secure operation of the VIDI MQTT Driver in production enviro
 - Enable MQTTS and disable anonymous access if the broker is accessed over public networks
 - Create separate MQTT users for each service (API Server, CoAP Gateway, application clients)
 
+### HTTP
+
+For secure remote access of the frontend, use a VPN or reverse proxy with HTTPS.
+
 ### Network Exposure
 
-- Configure your firewall in order to expose only necessary ports to external networks:
-  - Frontend (port 80/tcp or 443/tcp)
-  - MQTT (port 1883/tcp or 8883/tcp) if required by external applications
-  - CoAP (port 5683/udp) and NTP (port 123/udp) only if field devices are not on a private network
-- For secure remote access of the frontend, use a VPN or reverse proxy with HTTPS.
+Configure your firewall in order to expose only necessary ports to external networks:
+ - Frontend (port 80/tcp or 443/tcp)
+ - MQTT (port 1883/tcp or 8883/tcp) if required by external applications
+ - CoAP (port 5683/udp) and NTP (port 123/udp) only if field devices are not on a private network
 
 ### System Updates
 
