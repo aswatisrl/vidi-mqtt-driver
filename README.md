@@ -8,7 +8,7 @@ The driver makes the low-level communication transparent to the 3rd party applic
 CoAP (Constrained Application Protocol) is a lightweight, RESTful communication protocol specifically designed for constrained devices and networks in the Internet of Things (IoT). It enables simple, efficient, and resource-friendly communication between devices with limited processing power, memory, and battery life, operating over lossy and low-bandwidth networks such as NB-IoT or LTE-M. CoAP typically runs over UDP (User Datagram Protocol) instead of TCP, minimizing resource usage while providing faster communication.
 
 ### MQTT
-MQTT (Message Queuing Telemetry Transport) is a lightweight, publish-subscribe-based messaging protocol. The publish-subscribe pattern enables to decouple components and to scale efficiently.
+MQTT (Message Queuing Telemetry Transport) is a lightweight, publish-subscribe-based messaging protocol. The publish-subscribe pattern enables components to be decoupled and scale efficiently.
 
 # Installation
 
@@ -16,13 +16,13 @@ This section describes how to install the VIDI MQTT Driver with Docker Compose. 
 
 ### Docker Compose
 Docker Compose makes it possible to configure and run multiple Docker containers at once using the `compose.yml` file.
-The driver is composed by the following containers:
+The driver consists of the following containers:
 
 - **mysql**: MySQL database server, used to store device configurations and frame logs
-- **vernemq**: MQTT broker, used for async communicaton between services
+- **vernemq**: MQTT broker, used for async communication between services
 - **api-server**: API Server, the engine of the driver
 - **coap-gateway**: CoAP gateway based on the Open Source project [Californium](https://eclipse.dev/californium)
-- **coap-monitor**: The service that manages low-priority tasks, such as writing logs and cleaning records
+- **coap-monitor**: Manages background tasks, such as log writing and data cleanup
 - **frontend**: Web frontend for configuration of the driver and API documentation
 - **redis**: in-memory key–value database, cache and message broker
 - **ntp**: NTP server used to provide synchronization service to the field devices
@@ -36,7 +36,7 @@ The hardware specifications mainly depends on the number of devices and the samp
 - 20 GB storage
 
 ### Login to the container repository
-The container are hosted on the GitHub repository. By issuing the `docker compose up` command, Docker will try to pull the images from the GitHub repository. Since the repository is not publicly accessible, you need a valid username and password to pull the containers. You should have received the credentials *GH_USERNAME* and *GH_PASSWORD* by your sales representative.
+The containers are hosted in a GitHub repository. By issuing the `docker compose up` command, Docker will try to pull the images from the GitHub repository. Since the repository is not publicly accessible, you need a valid username and password to pull the containers. You should have received the credentials *GH_USERNAME* and *GH_PASSWORD* by your sales representative.
 
 Open a console on the host machine (the one that will run the containers) and run the command: 
 
@@ -61,7 +61,7 @@ git clone https://github.com/aswatisrl/vidi-mqtt-driver
 ### Installation package
 As the result of the `git clone` command, you should now have in the folder /opt/vidi-mqtt-driver the following:
 
-- **scripts**: it contains the MySQL database initialization scripts
+- **scripts**: it contains MySQL database initialization scripts
 - **compose.yaml**: Docker Compose file
 - **dump_db.sh**: script to execute a daily backup copy of the database (optional - see Backup section)
 
@@ -91,6 +91,7 @@ vernemq:
     - DOCKER_VERNEMQ_USER_appuser='12345678'
 ```
 Caveat: passing the passwords as environment variables you cannot have a `=` character in your password.
+Consider using Docker secrets for improved security in production environments.
 
 #### Service `api-server`
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
@@ -99,7 +100,7 @@ Caveat: passing the passwords as environment variables you cannot have a `=` cha
 
 #### Service `coap-monitor`
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
-- Edit the `DATA_RETENTION` environmental parameter with desidered retention for the uplink records in the database. The retention is expressed in days.
+- Edit the `DATA_RETENTION` environmental parameter with desired retention for the uplink records in the database. The retention is expressed in days.
 
 #### Service `coap-gateway`
 In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
@@ -138,15 +139,15 @@ The default credentials are:
 - Username: *admin*
 - Password: *admin*
 
-**Important:** At first access, change the password by clicking on the profile icon at the botton of the left sidebar
+>**⚠️ Important:** At first access, change the password by clicking on the profile icon at the bottom of the left sidebar
 
 The CoAP Gateway needs also to consume the APIs exposed by API Server. For this purpose, a default user is created in the API Server during the initialization:
 - Username: *coap_gateway_user*
 - Password: *changeme*
 
-Log out from `admin` user and log is as `coap_gateway_user`
+Log out from `admin` user and log in as `coap_gateway_user`
 
-Once logged, change the password by clicking on the profile icon at the botton of the left sidebar
+Once logged, change the password by clicking on the profile icon at the bottom of the left sidebar
 
 At this point you need to open the file `compose.yaml` and edit the line `API_PASSWORD=changeme` in the *coap-gateway* section, replacing the default password with the new one that you just created.
 Restart the containers using the commands
@@ -180,7 +181,7 @@ Access the *Devices* page on the Frontend. You can add one device manually (*Add
 
 # Backup
 
-The database stores the OSCORE context for each device. The context is the local set of information elements necessary to carry out the cryptographic operations. In case of a data loss, it won't be possible for the devices to communicate anymore with the CoAP server, and it will be necessary to trigger a new join procedure on the device by swithing the radio OFF and ON locally on the field.
+The database stores the OSCORE context for each device. The context is the local set of information elements necessary to carry out the cryptographic operations. In case of a data loss, it won't be possible for the devices to communicate anymore with the CoAP server, and it will be necessary to trigger a new join procedure on the device by switching the radio OFF and ON locally on the field.
 
 For this reason we strongly advice to configure the automatic daily backup of the database. 
 Open the crontab with the command:
@@ -192,6 +193,6 @@ Append the following line in order to execute a copy (dump) of the database ever
 ```
 0 2  * * *    cd /opt/vidi-mqtt-driver && ./dump_db.sh
 ```
-A dump of the database will be generated and copied into the folder `backup_db`, with a retention policy of 28 days
+A database dump will be saved in the `backup_db` folder with a 28-day retention policy. The script deletes the backups older than 28 days at the end of the execution.
 
 **Note:** If the `backup_db` folder does not exist, it will be created in the same directory of the script
