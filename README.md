@@ -89,9 +89,9 @@ vernemq:
   ...
   environment:
     ...
-    - DOCKER_VERNEMQ_USER_apiserveruser='12345678'
-    - DOCKER_VERNEMQ_USER_gatewayuser='12345678'
-    - DOCKER_VERNEMQ_USER_appuser='12345678'
+    - DOCKER_VERNEMQ_USER_apiserveruser=password1
+    - DOCKER_VERNEMQ_USER_gatewayuser=password2
+    - DOCKER_VERNEMQ_USER_appuser=password3
 ```
 Caveat: passing the passwords as environment variables you cannot have a `=` character in your password.
 
