@@ -10,7 +10,26 @@ CoAP (Constrained Application Protocol) is a lightweight, RESTful communication 
 ### MQTT
 MQTT (Message Queuing Telemetry Transport) is a lightweight, publish-subscribe-based messaging protocol. The publish-subscribe pattern enables components to be decoupled and scale efficiently.
 
-# Installation
+## Licensing
+This software requires a valid license in order to function. Without a license, the application will not operate.
+
+### License validation
+This software uses an online license server to make sure your license is valid. Once a day, the software connects to the license server. The server confirms your license and sends back a token, which is valid for 7 days.
+Make sure your system has internet access and can reach the license server.
+
+The following information is transmitted daily to the license server:
+- The license key
+- The version of the running containers
+- A list of the serial numbers of the device currently enrolled in the Driver. The list is necessary to prevent unauthorized use of the software
+
+No other information about users, device data or meta-data (such as notes, firmware versions, operators, keys) are sent to the license server.
+
+### What happens if the license server can’t be reached
+When the service starts, if the license server cannot be reached, the application will stop immediately. 
+During the daily validation of the license, if the software cannot contact the license server (for example, due to network issues), it will keep using the last valid token. 
+If the problem persists and the software cannot validate the license before the token expires (7 days) the software will stop working.
+
+## Installation
 
 This section describes how to install the VIDI MQTT Driver with Docker Compose. Although Docker is a cross-platform containerization software, the present guide shows the installation commands for a Linux host, as this is the most common scenario.
 
@@ -35,8 +54,10 @@ The hardware specifications mainly depends on the number of devices and the samp
 - 4 GB RAM
 - 20 GB storage
 
+During the setup you will also need a license key and the credentials for pulling the images from the GitHub Container Registry. Please contact your sales representative or authorized reseller to obtain them.
+
 ### Login to the container repository
-The containers are hosted in a GitHub repository. By issuing the `docker compose up` command, Docker will try to pull the images from the GitHub repository. Since the repository is not publicly accessible, you need a valid username and password to pull the containers. You should have received the credentials *GH_USERNAME* and *GH_PASSWORD* by your sales representative.
+The containers are hosted in a GitHub repository. By issuing the `docker compose up` command, Docker will try to pull the images from the GitHub Container Registry. Since the repository is not publicly accessible, you need a valid username (*GH_USERNAME*) and password (*GH_PASSWORD*) to pull the Docker images.
 
 Open a console on the host machine (the one that will run the containers) and run the command: 
 
@@ -96,6 +117,7 @@ vernemq:
 Caveat: passing the passwords as environment variables you cannot have a `=` character in your password.
 
 #### Service `api-server`
+- Replace `<LICENSE_KEY>` with your license key. Without a valid license, the service will not start. 
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
 - Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
 - In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above.
@@ -107,7 +129,7 @@ Caveat: passing the passwords as environment variables you cannot have a `=` cha
 #### Service `coap-gateway`
 In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
 
-# Launch the VIDI MQTT Driver
+## Launch the VIDI MQTT Driver
 Launch the driver with the command
 ```console
 docker compose up -d
@@ -131,7 +153,7 @@ docker logs api-server -f
 
 Logs are rotated every day, with a 14-days retention period
 
-# Initialization
+## Initialization
 Once the service is started, do the following operations:
 
 ### Frontend
@@ -184,7 +206,7 @@ It's also possible to specify a textual note for each device, for easy asset man
 Access the *Devices* page on the frontend. You can add one device manually (*Add new device* button) or import multiple devices by providing a CSV file (*Add devices from file* button) 
 
 
-# Backup
+## Backup
 
 The database stores the OSCORE context for each device. The context is the local set of information elements necessary to carry out the cryptographic operations. In case of a data loss, it won't be possible for the devices to communicate anymore with the CoAP server. The device will receive a `401 Unauthorized` status, and it will be forced to start a new join procedure on the device.
 
@@ -202,7 +224,7 @@ A database dump will be saved in the `backup_db` folder. The script deletes the 
 
 **Note:** If the `backup_db` folder does not exist, it will be created in the same directory of the script
 
-# Security Best Practices
+## Security Best Practices
 
 To ensure secure operation of the VIDI MQTT Driver in production environments, follow these recommendations:
 
