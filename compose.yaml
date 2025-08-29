@@ -3,13 +3,13 @@ services:
     image: mysql:8.4
     container_name: mysql
     restart: always
-    command: --mysql-native-password=ON --innodb_buffer_pool_size=1024M --init-file /opt/scripts/init_db.sql
+    command: --mysql-native-password=ON --innodb_buffer_pool_size=1024M
     environment:
       - MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD>
     ports:
       - 3306:3306
     volumes:
-      - ./scripts:/opt/scripts
+      - ./scripts:/docker-entrypoint-initdb.d
       - ./db_data:/var/lib/mysql
       
   vernemq:
