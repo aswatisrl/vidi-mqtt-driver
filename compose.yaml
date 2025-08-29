@@ -7,7 +7,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD>
     ports:
-      - '3306:3306'
+      - 3306:3306
     volumes:
       - ./scripts:/opt/scripts
       - ./db_data:/var/lib/mysql
@@ -17,8 +17,8 @@ services:
     container_name: vernemq
     restart: always
     ports:
-      - "1883:1883"
-      - "8888:8888"
+      - 1883:1883
+      - 8888:8888
     environment:
       - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
       - DOCKER_VERNEMQ_ACCEPT_EULA=yes
@@ -33,6 +33,7 @@ services:
     volumes:
       - ./logs-apiserver:/usr/src/app/logs
     environment:
+      - LICENSE_KEY=<LICENSE_KEY>
       - RESET_ADMIN_PASSWORD=false
       - HTTP_PORT=8080
       - MQTT_CONN_STRING=mqtt://vernemq:1883
@@ -40,6 +41,7 @@ services:
       - MQTT_PASSWORD=
       - MQTT_CLIENTID=apiserver
       - MQTT_QOS=1
+      - MQTT_CLEAN=false
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - DB_HOST=mysql
@@ -60,11 +62,8 @@ services:
     container_name: coap-monitor
     restart: always
     environment:
-      - MQTT_CONN_STRING=mqtt://vernemq:1883
-      - MQTT_USERNAME=
-      - MQTT_PASSWORD=
-      - MQTT_CLIENTID=apiserver
-      - MQTT_QOS=1
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
       - DATA_RETENTION=30
       - DB_HOST=mysql
       - DB_PORT=3306
