@@ -24,7 +24,7 @@ The following information is transmitted daily to the license server:
 
 No other information about users, device data or meta-data (such as notes, firmware versions, operators, keys) are sent to the license server.
 
-### What happens if the license server can’t be reached
+### What happens if the license server can't be reached
 When the service starts, if the license server cannot be reached, the application will stop immediately. 
 During the daily validation of the license, if the software cannot contact the license server (for example, due to network issues), it will keep using the last valid token. 
 If the problem persists and the software cannot validate the license before the token expires (7 days) the software will stop working.
