@@ -48,7 +48,7 @@ services:
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
-      - DB_SCHEMA=nbiot_server
+      - DB_SCHEMA=coap_server
       - JWT_PRIVATE_KEY=<JWT_SECRET_KEY>
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/api/info"]
@@ -69,7 +69,7 @@ services:
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
-      - DB_SCHEMA=nbiot_server
+      - DB_SCHEMA=coap_server
 
   coap-gateway:
     image: ghcr.io/aswatisrl/coap-gateway:latest
