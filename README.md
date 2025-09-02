@@ -15,7 +15,7 @@ This software requires a valid license in order to function. Without a license, 
 
 ### License validation
 This software uses an online license server to make sure your license is valid. Once a day, the software connects to the license server. The server confirms your license and sends back a token, which is valid for 7 days.
-Make sure your system has internet access and can reach the license server.
+Make sure your system has internet access and that no firewall rules are blocking outbound HTTPS traffic (port 443) to the license server.
 
 The following information is transmitted daily to the license server:
 - The license key
@@ -193,18 +193,19 @@ Now you can access the frontend `http://<host>` with `admin/admin` credentials a
 
 Once the password is reset, do not forget to open again the file`compose.yaml`, revert the configuration to `RESET_ADMIN_PASSWORD=false` and restart the container with the same command. Otherwise the *admin* password will be reset to the default at each restart
 
-### Adding devices
+### Enrolling devices
 Once launched, the CoAP server is listening on port 5683 but it will not accept any connection as no security context is present.
-You need to add the devices by providing for each unit:
+You need to enroll the devices by providing for each unit:
 - Serial (example A0000001)
 - 128-bit Root Key (example b25f88887b44dbdc4b8952b22636cb65)
 
 You should have received this set of information when purchasing the device. If not, please contact your sales representative.
 
-It's also possible to specify a textual note for each device, for easy asset management
+It's also possible to specify a textual note for each device, for easy asset management.
 
-Access the *Devices* page on the frontend. You can add one device manually (*Add new device* button) or import multiple devices by providing a CSV file (*Add devices from file* button) 
+Access the *Devices* page on the frontend. You can add one device manually (*Add new device* button) or import multiple devices by providing a CSV file (*Add devices from file* button).
 
+Alternatively, you can enroll devices using Rest APIs. See the *API Docs* page on the frontend for instructions.
 
 ## Backup
 
