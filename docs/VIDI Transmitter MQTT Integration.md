@@ -66,8 +66,8 @@ The present annex describes the three types of parameters:
 Table 1: Read-only parameters
 | Name	| Type | Description | 	Example  | Notes | 
 | ----- | ---- | ----------- | --------  | ----- |
-| fw_version | string | Version of the firmware, in SemVer format | "1.0.2-beta.01" | ^1 |
-| hw_version | string | Version of the hardware | "TR2_1" | ^1 |
+| fw_version | string | Version of the firmware, in SemVer format | "1.0.2-beta.01" | [^1] |
+| hw_version | string | Version of the hardware | "TR2_1" | [^1] |
 | measures | array | Array of measures, see documentation below | | | 
 | alarms | array | Array of alarms, see documentation below | | | 
 | battery_voltage | number | Battery voltage, in millivolts | 3699 | |
@@ -75,8 +75,8 @@ Table 1: Read-only parameters
 | rsrp | number | RSRP (Reference Signals Received Power) of the previous transmission, in dBm	| -94 | | 
 | snr | number | SNR (Signal to Noise Ratio) of the previous transmission, in dB | 10 | |
 | internal_temperature | number | Internal device temperature, in °C. Please note that this cannot be used as a measurement of external air temperature since it is normally higher due to the device components heating | 22 | |
-| operator | string | Mobile operator the device is currently connected to | "Vodafone Italy" | ^1 | 
-| band | number | Frequency band identifier | 20 | ^1 | 
+| operator | string | Mobile operator the device is currently connected to | "Vodafone Italy" | [^1] | 
+| band | number | Frequency band identifier | 20 | [^1] | 
 | reset_alarm | number | Indication that the device has rebooted. The value is set to 1 at the first transmission after the reboot. It is reset to 0 at the second transmission after the reboot, and never sent again until next reboot | 1 | |
 | reset_count | number | Reboot counter | 10 | ^2 |
 | conn_count | number | Connection counter | 10 | ^2 |
@@ -218,7 +218,7 @@ full_scale	number	Applies only to:
 
 Notes:
  
-[^1]: It triggers the reboot of the device	
+[[^1]]: It triggers the reboot of the device	
 
 ## Sending commands
 There are two ways for sending commands or configurations to the devices: via web interface or programmatically, using the Rest APIs.
