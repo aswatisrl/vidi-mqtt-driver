@@ -18,7 +18,7 @@ The driver consists of the following containers:
 ### Requirements
 Before you continue, please make sure that you have Docker and Compose installed. Please refer to https://docs.docker.com/get-docker/ for documentation on how to install Docker.
 
-The hardware specifications mainly depends on the number of devices and the sampling/transmission rates. Anyway, a minimum recommendation is:
+The hardware specifications mainly depend on the number of devices and the sampling/transmission rates. Anyway, a minimum recommendation is:
 - 2 vCPU
 - 4 GB RAM
 - 20 GB storage
