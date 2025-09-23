@@ -55,9 +55,8 @@ The `data` properties of the JSON can contain the following fields:
 | fota_count | number | FOTA attempts counter | 10 | [^2] |
 | cell_id | number | Id of the cell the device is currently connected to | 14129519 | [^2] |
 | tracking_area | number | Tracking Area the device is currently connected to | 37092 | [^2] |
-| last_fota_status | string | Outcome of the last FOTA attempt | "Firmware updated successfully" | [^3] |
+| last_fota_status | string | Outcome of the last FOTA attempt, see [FOTA states](#fota-states) | "Firmware updated successfully" | [^3] |
 | last_fota | timestamp | Date and time of the last FOTA attempt, in ISO 8601 format | "2025-04-17T06:41:57Z" | [^3] |
- 
 
 ### Measures
 The `measures` array contains an element for each sampling. 
@@ -230,6 +229,20 @@ Each element of the array contains the field `timestamp`, that indicates the dat
 | test_mode | number | Command to ask the device to go in test mode, for the given number of transmissions. During the test mode, the device transmits after each sampling. After the transmissions are elapsed, the device goes back to working in standard mode | `{"test_mode": 5}` | |
 | debug_mode | number | Command to ask the device to go in debug mode, for the given number of transmissions. During the debug mode, the device behaves normally but adds in the transmission payload debug information (e.g., uptime and statistics). After the transmissions are elapsed, the device goes back to working in standard mode | `{"debug_mode": 10}` | |
 | battery_replace | number | Command to tell the device that the battery has been replaced, by setting the parameter to 1. As a result, the device will reset the battery charge to 100% |	`{"battery_replace": 1}` | |
+
+
+#### FOTA states
+| Value | Meaning |  
+| - | - |   
+| 0 | Upgrading |
+| 1 | Firmware updated successfully |
+| 2 | Already to latest version |
+| 3 | Not enough flash memory |
+| 4 | Connection lost during download |
+| 5 | Integrity check failure |
+| 6 | Unsupported package type |
+| 7 | New firmware unable to boot |
+| 8 | Firmware update failed |
 
 [^1]: Sent only in the first transmission after reboot or in response to the `get_config` command	
 [^2]: Sent only when the debug mode is active
