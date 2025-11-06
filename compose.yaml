@@ -97,8 +97,7 @@ services:
     volumes:
       - ./logs-gateway:/opt/coap_server/logs
     environment:
-      - API_USERNAME=coap_gateway_user
-      - API_PASSWORD=changeme
+      - API_TOKEN=<API_TOKEN>
       - API_HOST=api-server
       - API_PORT=8080
       - COAP_HOST=0.0.0.0
