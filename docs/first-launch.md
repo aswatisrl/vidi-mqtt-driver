@@ -29,26 +29,31 @@ Logs are rotated daily and retained for 14 days.
 Once the service is started, do the following operations:
 
 ### Web interface
-Log in to the web configuration page of the driver by opening a web browser and entering the url `http://<HOST>`, for example `http://192.168.1.1`
+Access the driver's web configuration interface by opening a web browser and nvaigating to: `http://<HOST>` (for example `http://192.168.1.1`)
 
-The default credentials are:
+The default login credentials are:
 - Username: *admin*
 - Password: *admin*
 
+**⚠️ Important:** Upon first login, change the password immediately. Click the profile icon at the bottom of the left sidebar and set a new password.
 
-**⚠️ Important:** On first login, immediately change the password from the profile icon at the bottom of the left sidebar
+### CoAP Gateway configuration
+The CoAP Gateway status is displayed on the upper-right corner of the page. At this point, the gateway will be shown as **inactive**, as it has not been configured yet.   
+The CoAP Gateway requires an API Token to communicate with the API Server.  
 
+1. Open the left side menu and select **API Tokens**.
+2. Click **Generate new token**.
+3. Fill in the fields as follows:
+   - **Token name:** A descriptive name to identify the token later, e.g., `coap-gateway`.
+   - **Expiration:** Choose according to your security policies.  
+     If you do **not** choose *No expiration*, you will need to regenerate the token before it expires.
+   - **Permissions:** Enable *Can read devices* and *Can write devices*. Leave all other permissions unchecked.
+4. Click **Generate token** and **store the token securely**, as it cannot be viewed again later.
 
-The CoAP Gateway also needs to consume the APIs exposed by the API Server. For this purpose, a default user is created in the API Server during the initialization:
-- Username: *coap_gateway_user*
-- Password: *changeme*
-
-Log out from the `admin` account and log in as `coap_gateway_user`
-
-Once logged, change the password by clicking on the profile icon at the bottom of the left sidebar
-
-Next, edit the file `compose.yaml` and update the line `API_PASSWORD=changeme` in the *coap-gateway* section with the new password you just created.
-Restart the containers using the commands
+### Updating the Configuration
+Edit the `compose.yaml` file and locate the **coap-gateway** service section.  
+Edit the line `API_TOKEN=<API_TOKEN>` in the *coap-gateway* section replacing `<API_TOKEN>` with the token you just created.
+Finally, restart the containers to apply the changes:
 ```console
 docker compose down && docker compose up -d
 ```
