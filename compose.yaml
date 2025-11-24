@@ -41,6 +41,7 @@ services:
       - ./logs-apiserver:/usr/src/app/logs
     environment:
       - LICENSE_KEY=<LICENSE_KEY>
+      - LICENSE_TOKEN=<LICENSE_TOKEN>
       - RESET_ADMIN_PASSWORD=false
       - HTTP_PORT=8080
       - MQTT_CONN_STRING=mqtt://vernemq:1883
@@ -57,6 +58,7 @@ services:
       - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
       - DB_SCHEMA=coap_server
       - JWT_PRIVATE_KEY=<JWT_SECRET_KEY>
+      - FIRMWARE_REPO=https://vidimanager.asw-ati.com/api/fota/
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/api/info"]
       interval: 30s
