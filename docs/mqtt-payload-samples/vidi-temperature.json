@@ -1,0 +1,33 @@
+{
+	"protocol": 2,
+	"rx_date": "2025-11-24T07:55:15+00:00",
+	"hw_type": "18",
+	"message_type": "rx",
+	"serial": "A0010412",
+	"join_date": "2025-11-21T14:38:56.000Z",
+	"data": {
+		"measures": [
+			{
+				"timestamp": "2025-11-24T07:55:03+00:00",
+				"temperature": 271
+			},
+			{
+				"timestamp": "2025-11-24T07:53:56+00:00",
+				"temperature": 269
+			},
+			{
+				"timestamp": "2025-11-24T07:52:49+00:00",
+				"temperature": 268
+			},
+			{
+				"timestamp": "2025-11-24T07:51:42+00:00",
+				"temperature": 269
+			}
+		],
+		"battery_voltage": 3235,
+		"battery_level": 30,
+		"rsrp": -90,
+		"snr": 9,
+		"internal_temperature": 21
+	}
+}
