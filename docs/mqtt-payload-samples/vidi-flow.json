@@ -69,6 +69,7 @@
 			}
 		],
 		"battery_voltage": 3599,
+		"battery_level": 98,
 		"rsrp": -113,
 		"snr": 5,
 		"internal_temperature": 18
