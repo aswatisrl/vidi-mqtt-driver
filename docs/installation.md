@@ -13,7 +13,8 @@ The driver consists of the following containers:
 - **coap-monitor**: Manages background tasks, such as log writing and data cleanup
 - **frontend**: Web frontend for configuration of the driver and API documentation
 - **redis**: in-memory key–value database, cache and message broker
-- **ntp**: NTP server used to provide synchronization service to the field devices
+- **ntp**: NTP server used to provide synchronization service to the field dev
+ices
 
 ### Requirements
 Before you continue, please make sure that you have Docker and Compose installed. Please refer to https://docs.docker.com/get-docker/ for documentation on how to install Docker.
@@ -64,7 +65,7 @@ When the service is started for the first time, Docker will create the following
 Before launching Docker Compose for the first time, it is necessary to edit the configuration. Open the file `compose.yaml` with a text editor and edit the following:
 
 #### Service `mysql`
-- Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. Avoid the `=` character as it is not allowed for passing environment variables.
+- Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters.
 
 #### Service `vernemq`
 According to the default configuration, the VerneMQ MQTT broker is started with the `ALLOW_ANONYMOUS` flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to `DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`  
@@ -83,17 +84,23 @@ vernemq:
     - DOCKER_VERNEMQ_USER_gatewayuser=password2
     - DOCKER_VERNEMQ_USER_appuser=password3
 ```
-⚠️ Passing the passwords as environment variables you cannot have a `=` character in your password.
+⚠️ If the password contains a `=` character, make sure to enclose it in double quotes.
 
 #### Service `api-server`
 - Replace `<LICENSE_TOKEN>` with your license token. Without a valid license, the service will not start.
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*.
 - Replace `<JWT_SECRET_KEY>` with a utf-8 encoded string. We suggest at least 32 characters. The key is used by the API Server to sign and verify the JSON Web Tokens.
 - In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above.
+- The default repository for the device firmware is: `https://vidimanager.asw-ati.com/api/fota/`. Using this repository ensures that devices always receive the latest firmware version when performing a FOTA (Firmware Over-The-Air) update. However, if your IT architecture does not allow outbound Internet traffic, you can use a local firmware repository, that you will need to populate manually for each release. In this case, either remove the `FIRMWARE_REPO` variable or set it to local.
+Example:
+```
+- FIRMWARE_REPO=local
+```
 
 #### Service `coap-monitor`
 - Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
 - Optionally, edit the `DATA_RETENTION` environmental parameter with desired retention for the uplink and downlink records in the database. The retention is expressed in days. Default is 30 days
+- For `FIRMWARE_REPO`, the same rules described above for the `api-server` service apply
 
 #### Service `coap-gateway`
 In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environmental variables with the username and password you specified above. 
