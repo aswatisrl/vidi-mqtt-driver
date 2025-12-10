@@ -1,0 +1,77 @@
+{
+	"protocol": 2,
+	"rx_date": "2025-11-24T08:13:12+00:00",
+	"hw_type": "16",
+	"message_type": "rx",
+	"serial": "A0008859",
+	"join_date": "2025-10-08T11:06:22.000Z",
+	"data": {
+		"measures": [
+			{
+				"timestamp": "2025-11-24T08:10:00+00:00",
+				"volume": 121870170,
+				"flowrate": 180
+			},
+			{
+				"timestamp": "2025-11-24T08:05:00+00:00",
+				"volume": 121869630,
+				"flowrate": 180
+			},
+			{
+				"timestamp": "2025-11-24T08:00:00+00:00",
+				"volume": 121869060,
+				"flowrate": 196
+			},
+			{
+				"timestamp": "2025-11-24T07:55:00+00:00",
+				"volume": 121868470,
+				"flowrate": 196
+			},
+			{
+				"timestamp": "2025-11-24T07:50:00+00:00",
+				"volume": 121867910,
+				"flowrate": 180
+			},
+			{
+				"timestamp": "2025-11-24T07:45:00+00:00",
+				"volume": 121867370,
+				"flowrate": 180
+			},
+			{
+				"timestamp": "2025-11-24T07:40:00+00:00",
+				"volume": 121866830,
+				"flowrate": 180
+			},
+			{
+				"timestamp": "2025-11-24T07:35:00+00:00",
+				"volume": 121866290,
+				"flowrate": 180
+			},
+			{
+				"timestamp": "2025-11-24T07:30:00+00:00",
+				"volume": 121865750,
+				"flowrate": 180
+			},
+			{
+				"timestamp": "2025-11-24T07:25:00+00:00",
+				"volume": 121865210,
+				"flowrate": 180
+			},
+			{
+				"timestamp": "2025-11-24T07:20:00+00:00",
+				"volume": 121864700,
+				"flowrate": 164
+			},
+			{
+				"timestamp": "2025-11-24T07:15:00+00:00",
+				"volume": 121864200,
+				"flowrate": 164
+			}
+		],
+		"battery_voltage": 3599,
+		"battery_level": 98,
+		"rsrp": -113,
+		"snr": 5,
+		"internal_temperature": 18
+	}
+}

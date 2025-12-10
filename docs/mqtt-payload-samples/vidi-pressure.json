@@ -1,0 +1,44 @@
+{
+	"protocol": 2,
+	"rx_date": "2025-11-24T07:56:38+00:00",
+	"hw_type": "17",
+	"message_type": "rx",
+	"serial": "A0010413",
+	"join_date": "2025-11-21T14:30:14.000Z",
+	"data": {
+		"measures": [
+			{
+				"timestamp": "2025-11-24T07:56:10+00:00",
+				"pressure": 6722
+			},
+			{
+				"timestamp": "2025-11-24T07:55:03+00:00",
+				"pressure": 6714
+			},
+			{
+				"timestamp": "2025-11-24T07:53:56+00:00",
+				"pressure": 6722
+			},
+			{
+				"timestamp": "2025-11-24T07:52:49+00:00",
+				"pressure": 6721
+			},
+			{
+				"timestamp": "2025-11-24T07:51:42+00:00",
+				"pressure": 6718
+			}
+		],
+   		"alarms": [
+			{
+				"timestamp": "2025-11-24T07:51:42+00:00",
+				"pressure": 6718
+         		"low_alarm": 1,
+      		},
+   		],
+		"battery_voltage": 3246,
+		"battery_level": 30,
+		"rsrp": -87,
+		"snr": 6,
+		"internal_temperature": 19
+	}
+}

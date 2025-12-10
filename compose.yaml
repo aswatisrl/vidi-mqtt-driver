@@ -1,0 +1,133 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: mysql
+    restart: always
+    command: --mysql-native-password=ON --innodb_buffer_pool_size=1024M
+    environment:
+      - MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD>
+    ports:
+      - 3306:3306
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d
+      - ./db_data:/var/lib/mysql
+      
+  vernemq:
+    image: vernemq/vernemq:2.0.1
+    container_name: vernemq
+    restart: always
+    ports:
+      - 1883:1883
+      - 8888:8888
+    environment:
+      - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
+      - DOCKER_VERNEMQ_ACCEPT_EULA=yes
+      - DOCKER_VERNEMQ_MAX_INFLIGHT_MESSAGES=1000
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+
+  api-server:
+    image: ghcr.io/aswatisrl/coap-apiserver:latest
+    container_name: api-server
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./logs-apiserver:/usr/src/app/logs
+    environment:
+      - LICENSE_KEY=<LICENSE_KEY>
+      - LICENSE_TOKEN=<LICENSE_TOKEN>
+      - RESET_ADMIN_PASSWORD=false
+      - HTTP_PORT=8080
+      - MQTT_CONN_STRING=mqtt://vernemq:1883
+      - MQTT_USERNAME=
+      - MQTT_PASSWORD=
+      - MQTT_CLIENTID=apiserver
+      - MQTT_QOS=1
+      - MQTT_CLEAN=false
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
+      - DB_SCHEMA=coap_server
+      - JWT_PRIVATE_KEY=<JWT_SECRET_KEY>
+      - FIRMWARE_REPO=https://vidimanager.asw-ati.com/api/fota/
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/api/info"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    depends_on:
+      vernemq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mysql:
+        condition: service_started
+
+  coap-monitor:
+    image: ghcr.io/aswatisrl/coap-monitor:latest
+    container_name: coap-monitor
+    restart: always
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - DATA_RETENTION=30
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
+      - DB_SCHEMA=coap_server
+    depends_on:
+      api-server:
+        condition: service_healthy
+
+  coap-gateway:
+    image: ghcr.io/aswatisrl/coap-gateway:latest
+    container_name: coap-gateway
+    restart: always
+    ports:
+      - 5683:5683/udp
+    volumes:
+      - ./logs-gateway:/opt/coap_server/logs
+    environment:
+      - API_TOKEN=<API_TOKEN>
+      - API_HOST=api-server
+      - API_PORT=8080
+      - COAP_HOST=0.0.0.0
+      - COAP_LOCAL_PORT=5683
+      - COAP_REMOTE_PORT=5683
+      - MQTT_CONN_STRING=tcp://vernemq:1883
+      - MQTT_USERNAME=
+      - MQTT_PASSWORD=
+      - MQTT_QOS=1
+    depends_on:
+      api-server:
+        condition: service_healthy
+
+  frontend:
+    image: ghcr.io/aswatisrl/coap-frontend:latest
+    container_name: frontend
+    restart: always
+    ports:
+      - 80:80/tcp
+    depends_on:
+      api-server:
+        condition: service_healthy
+    
+  ntp:
+    image: cturra/ntp:latest
+    container_name: ntp
+    restart: always
+    ports:
+      - 123:123/udp
+    environment:
+      - NTP_SERVER=pool.ntp.org
