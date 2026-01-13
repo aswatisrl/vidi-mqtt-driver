@@ -6,6 +6,9 @@ services:
     command: --mysql-native-password=ON --innodb_buffer_pool_size=1024M
     environment:
       - MYSQL_ROOT_PASSWORD=<MYSQL_ROOT_PASSWORD>
+      - MYSQL_DATABASE=coap_server
+      - MYSQL_USER=coapuser
+      - MYSQL_PASSWORD=<MYSQL_USER_PASSWORD>
     ports:
       - 3306:3306
     volumes:
@@ -62,8 +65,8 @@ services:
       - REDIS_PORT=6379
       - DB_HOST=mysql
       - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
+      - DB_USER=coapuser
+      - DB_PASSWORD=<MYSQL_USER_PASSWORD>
       - DB_SCHEMA=coap_server
       - JWT_PRIVATE_KEY=<JWT_SECRET_KEY>
       - FIRMWARE_REPO=https://vidimanager.asw-ati.com/api/fota/
@@ -91,8 +94,8 @@ services:
       - DATA_RETENTION=30
       - DB_HOST=mysql
       - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
+      - DB_USER=coapuser
+      - DB_PASSWORD=<MYSQL_USER_PASSWORD>
       - DB_SCHEMA=coap_server
       - FIRMWARE_REPO=https://vidimanager.asw-ati.com/api/fota/
     depends_on:
