@@ -64,8 +64,8 @@ When the service is started for the first time, Docker will create the following
 Before launching Docker Compose for the first time, it is necessary to edit the configuration. Open the file `compose.yaml` with a text editor and edit the following:
 
 #### Service `mysql`
-- Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. This is the password for the `root` user, which will be needed only for database managemenet.
-- Replace `<MYSQL_USER_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. This is the password for the `copauser` user, which will be used by the application.
+- Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. This is the password for the `root` user, which will be needed only for database management.
+- Replace `<MYSQL_USER_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. This is the password for the `copauser` user, which will be needed by the `api-server` and `coap-monitor` services.
 
 #### Service `vernemq`
 According to the default configuration, the VerneMQ MQTT broker is started with the `ALLOW_ANONYMOUS` flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to `DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
