@@ -11,11 +11,13 @@ services:
     volumes:
       - ./scripts:/docker-entrypoint-initdb.d
       - ./db_data:/var/lib/mysql
-      
+
   vernemq:
     image: vernemq/vernemq:2.0.1
     container_name: vernemq
     restart: always
+    volumes:
+      - ./lua_scripts:/vernemq/share/lua/custom:ro
     ports:
       - 1883:1883
       - 8888:8888
@@ -23,10 +25,16 @@ services:
       - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
       - DOCKER_VERNEMQ_ACCEPT_EULA=yes
       - DOCKER_VERNEMQ_MAX_INFLIGHT_MESSAGES=1000
+      - DOCKER_VERNEMQ_LISTENER__HTTP__HTTP_PUB__HTTP_MODULES__VMQ_HTTP_PUB__MQTT_AUTH__USER=rest
+      - DOCKER_VERNEMQ_LISTENER__HTTP__HTTP_PUB__HTTP_MODULES__VMQ_HTTP_PUB__MQTT_AUTH__PASSWORD=rest
+      - DOCKER_VERNEMQ_LISTENER__HTTP__HTTP_PUB__HTTP_MODULES__VMQ_HTTP_PUB__MQTT_AUTH__CLIENT_ID=rest
+      - DOCKER_VERNEMQ_VMQ_DIVERSITY__TRANSFORMER__FILE=/vernemq/share/lua/custom/transformer.lua
+      - API_KEY=HQsXBojV0FGTC4CTTatJrdkFXA01Ywex
 
   redis:
     image: redis:latest
     container_name: redis
+    mem_limit: 512m
     restart: always
     ports:
       - '6379:6379'
@@ -86,6 +94,7 @@ services:
       - DB_USER=root
       - DB_PASSWORD=<MYSQL_ROOT_PASSWORD>
       - DB_SCHEMA=coap_server
+      - FIRMWARE_REPO=https://vidimanager.asw-ati.com/api/fota/
     depends_on:
       api-server:
         condition: service_healthy
@@ -122,7 +131,7 @@ services:
     depends_on:
       api-server:
         condition: service_healthy
-    
+
   ntp:
     image: cturra/ntp:latest
     container_name: ntp
