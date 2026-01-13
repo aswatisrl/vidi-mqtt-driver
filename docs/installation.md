@@ -64,7 +64,8 @@ When the service is started for the first time, Docker will create the following
 Before launching Docker Compose for the first time, it is necessary to edit the configuration. Open the file `compose.yaml` with a text editor and edit the following:
 
 #### Service `mysql`
-- Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters.
+- Replace `<MYSQL_ROOT_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. This is the password for the `root` user, which will be needed only for database managemenet.
+- Replace `<MYSQL_USER_PASSWORD>` with a strong password. Please use lowercase and uppercase letters, numbers and special characters. This is the password for the `copauser` user, which will be used by the application.
 
 #### Service `vernemq`
 According to the default configuration, the VerneMQ MQTT broker is started with the `ALLOW_ANONYMOUS` flag, meaning that the broker is accepting connections from anonymous clients. It's possible to disable the anonymous login by editing the line to `DOCKER_VERNEMQ_ALLOW_ANONYMOUS=off`
@@ -86,7 +87,7 @@ vernemq:
 ⚠️ If the password contains a `=` character, make sure to enclose it in double quotes.
 
 #### Service `api-server`
-- Replace `<MYSQL_ROOT_PASSWORD>` with the password specified in the *mysql* service.
+- Replace `<MYSQL_USER_PASSWORD>` with the password specified in the *mysql* service.
 - Replace `<JWT_SECRET_KEY>` with a key of your choice, UTF-8 encoded. We recommend at least 32 characters. This key is used by the API Server to sign and verify the JSON Web Tokens.
 - If you disabled anonymous login in the *vernemq* service, set the `MQTT_USERNAME` and `MQTT_PASSWORD` environment variables with the username and password you specified.
 - The default repository for the device firmware is:
@@ -112,7 +113,7 @@ Example:
 
 
 #### Service `coap-monitor`
-- Replace `<MYSQL_ROOT_PASSWORD>` with the password you specified in the service *mysql*
+- Replace `<MYSQL_USER_PASSWORD>` with the password you specified in the service *mysql*
 - Optionally, edit the `DATA_RETENTION` environment variable with desired retention for the uplink and downlink records in the database. The retention is expressed in days. Default is 30 days
 - For `FIRMWARE_REPO`, the same rules described above for the `api-server` service apply
 
