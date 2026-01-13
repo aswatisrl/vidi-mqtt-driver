@@ -23,7 +23,7 @@ The hardware specifications mainly depend on the number of devices and the sampl
 - 4 GB RAM
 - 20 GB storage
 
-During the setup you will also need a **license token** and the credentials for pulling the images from the GitHub Container Registry. Please contact your sales representative or authorized reseller to obtain them.
+During the setup you will also need a valid license and the credentials for pulling the images from the GitHub Container Registry. Please contact your sales representative or authorized reseller to obtain them.
 
 ### Login to the container repository
 The containers are hosted in a GitHub repository. By issuing the `docker compose up` command, Docker will try to pull the images from the GitHub Container Registry. Since the repository is not publicly accessible, you need a valid username (*GH_USERNAME*) and password (*GH_PASSWORD*) to pull the Docker images.
