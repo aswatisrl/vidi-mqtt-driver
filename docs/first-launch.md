@@ -51,11 +51,11 @@ The CoAP Gateway requires an API Token to communicate with the API Server.
 4. Click **Generate token** and **store the token securely**, as it cannot be viewed again later.
 
 ### Updating the Configuration
-Edit the `compose.yaml` file and locate the **coap-gateway** service section.  
+Edit the `compose.yaml` file and locate the *coap-gateway* service section.  
 Edit the line `API_TOKEN=<API_TOKEN>` in the *coap-gateway* section replacing `<API_TOKEN>` with the token you just created.
-Finally, restart the containers to apply the changes:
+Finally, restart the container to apply the changes:
 ```console
-docker compose down && docker compose up -d
+docker compose up -d coap-gateway
 ```
 
 ### Password recovery
