@@ -32,8 +32,8 @@
 			{
 				"timestamp": "2025-11-24T07:51:42+00:00",
 				"pressure": 6718,
-         		"low_alarm": 1,
-      		},
+         		"low_alarm": 1
+      		}
    		],
 		"battery_voltage": 3246,
 		"battery_level": 30,
