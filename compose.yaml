@@ -31,7 +31,7 @@ services:
       - DOCKER_VERNEMQ_LISTENER__HTTP__HTTP_PUB__HTTP_MODULES__VMQ_HTTP_PUB__MQTT_AUTH__USER=rest
       - DOCKER_VERNEMQ_LISTENER__HTTP__HTTP_PUB__HTTP_MODULES__VMQ_HTTP_PUB__MQTT_AUTH__PASSWORD=rest
       - DOCKER_VERNEMQ_LISTENER__HTTP__HTTP_PUB__HTTP_MODULES__VMQ_HTTP_PUB__MQTT_AUTH__CLIENT_ID=rest
-#     - DOCKER_VERNEMQ_VMQ_DIVERSITY__TRANSFORMER__FILE=/vernemq/share/lua/custom/transformer.lua
+#     - DOCKER_VERNEMQ_VMQ_DIVERSITY__TRANSFORMER__FILE=/vernemq/share/lua/custom/splitter.lua
 
   redis:
     image: redis:latest
@@ -40,9 +40,15 @@ services:
     restart: always
     ports:
       - '6379:6379'
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
 
   api-server:
-    image: ghcr.io/aswatisrl/coap-apiserver:latest
+    image: cr.asw-ati.com/coap_driver/coap-apiserver:production
     container_name: api-server
     restart: always
     ports:
@@ -84,7 +90,7 @@ services:
         condition: service_started
 
   coap-monitor:
-    image: ghcr.io/aswatisrl/coap-monitor:latest
+    image: cr.asw-ati.com/coap_driver/coap-monitor:production
     container_name: coap-monitor
     restart: always
     environment:
@@ -102,7 +108,7 @@ services:
         condition: service_healthy
 
   coap-gateway:
-    image: ghcr.io/aswatisrl/coap-gateway:latest
+    image: cr.asw-ati.com/coap_driver/coap-gateway:production
     container_name: coap-gateway
     restart: always
     ports:
@@ -125,7 +131,7 @@ services:
         condition: service_healthy
 
   frontend:
-    image: ghcr.io/aswatisrl/coap-frontend:latest
+    image: cr.asw-ati.com/coap_driver/coap-frontend:production
     container_name: frontend
     restart: always
     ports:
