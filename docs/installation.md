@@ -23,15 +23,15 @@ The hardware specifications mainly depend on the number of devices and the sampl
 - 4 GB RAM
 - 20 GB storage
 
-During the setup you will also need a valid license and the credentials for pulling the images from the GitHub Container Registry. Please contact your sales representative or authorized reseller to obtain them.
+During the setup you will also need a valid license and the credentials for pulling the images from the Container Registry. Please contact your sales representative or authorized reseller to obtain them.
 
 ### Login to the container repository
-The containers are hosted in a GitHub repository. By issuing the `docker compose up` command, Docker will try to pull the images from the GitHub Container Registry. Since the repository is not publicly accessible, you need a valid username (*GH_USERNAME*) and password (*GH_PASSWORD*) to pull the Docker images.
+The containers are hosted in ASW-ATI Container Registry. By issuing the `docker compose up` command, Docker will try to pull the images from the registry. Since the repository is not publicly accessible, you need a valid username (*CR_USERNAME*) and password (*CR_PASSWORD*) to pull the Docker images.
 
 Open a console on the host machine (the one that will run the containers) and run the command:
 
 ```console
-echo <GH_PASSWORD> | docker login ghcr.io -u <GH_USERNAME> --password-stdin
+echo <CR_PASSWORD> | docker login cr.asw-ati.com -u '<CR_USERNAME>' --password-stdin
 ```
 
 You should see the following output:
@@ -39,7 +39,7 @@ You should see the following output:
 `Login Succeeded`
 
 ### Compose repository
-We provide a repository with the default Docker Compose configuration. This repository can be found at https://github.com/aswatisrl/vidi-mqtt-driver
+We provide a repository with the default Docker Compose file. This repository can be found at https://github.com/aswatisrl/vidi-mqtt-driver
 
 To clone this repository, open a console on the host (the machine that will run the driver) and execute the following command:
 
