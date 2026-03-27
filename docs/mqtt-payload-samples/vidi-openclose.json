@@ -1,0 +1,22 @@
+{
+	"protocol": 2,
+	"rx_date": "2025-03-27T08:59:18+00:00",
+	"hw_type": "24",
+	"message_type": "rx",
+	"serial": "A0008860",
+	"join_date": "2026-03-27T06:03:45.000Z",
+	"data": {
+		"measures": [
+			{
+				"timestamp": "2026-03-27T08:59:07+00:00",
+				"sw1": 0,
+                "sw2": 1
+			}
+		],
+		"battery_voltage": 3599,
+		"battery_level": 100,
+		"rsrp": -83,
+		"snr": 4,
+		"internal_temperature": 21
+	}
+}
