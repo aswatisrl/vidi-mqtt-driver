@@ -217,7 +217,7 @@ Each element of the array contains the field `timestamp`, that indicates the dat
 | installation_height | number | Applies only to *VIDI Level*. It indicates the distance in mm from the level sensor to the floor of the tank or the ground | 3000 | |
 | tx_delay | number | Applies only to VIDI Positioner and VIDI Open/Close. It indicates the delay in seconds between the detection of the change of state and the transmission | |
 | closing_direction | number | Applies only to VIDI Positioner. It indicates the valve closing direction:<br> 0: clockwise<br>1: anti-clockwise	| 0 | |
-| ocv_mode | number | Applies only to VIDI Open/Close. It indicates the operating mode. 0: Standard mode (the two proximity switches are installed at the ends of the same valve); 1: Independent mode (only first switch enabled); 2: Independent mode (only second switch enabled); 3: Independent mode (both switches enabled) | 0 |
+| ocv_mode | number | Applies only to VIDI Open/Close. It indicates the operating mode. 0: Standard mode (the two proximity switches are installed at the ends of the same valve); 1: Independent mode, only first switch enabled; 2: Independent mode, only second switch enabled; 3: Independent mode, both switches enabled | 0 |
 | hi_curr_count | number | Applies only to *VIDI Flow*. If set to 1, the device sets the pullup to 47 Kohm on the input pin. It must be set when (usually on electronic flow meters) the input impedance is not negligible and could prevent the correct pulse detection | | |
 | pulse_count | number | Applies only to *VIDI Flow*. Allows to replace the current count with a custom value | | |
 | low_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a low alarm | 0 | |
