@@ -5,7 +5,7 @@ Before reading this document, please make sure you have gone through the [MQTT I
 The MQTT payload `"data"` property contains device data formatted as JSON. This includes status information, measures and alarms.
 
 Example:
-```json 
+```json
 {
     ...
     "data": {
@@ -31,20 +31,20 @@ The `data` properties of the JSON can contain the following fields:
 
 
 ### Read-only fields
-| Name	| Type | Description | 	Example  | Notes | 
+| Name	| Type | Description | 	Example  | Notes |
 | ----- | ---- | ----------- | --------  | ----- |
 | fw_version | string | Version of the firmware, in SemVer format | "1.0.2-beta.01" | [^1] |
 | hw_version | string | Version of the hardware | "TR2_1" | [^1] |
-| measures | array | Array of measures, see documentation below | | | 
-| alarms | array | Array of alarms, see documentation below | | | 
+| measures | array | Array of measures, see documentation below | | |
+| alarms | array | Array of alarms, see documentation below | | |
 | battery_voltage | number | Battery voltage, in millivolts | 3699 | |
-| battery_charge | number | Battery state of charge, in percentage | 100 | | 
-| rsrp | number | RSRP (Reference Signals Received Power) of the previous transmission, in dBm	| -94 | | 
+| battery_charge | number | Battery state of charge, in percentage | 100 | |
+| rsrp | number | RSRP (Reference Signals Received Power) of the previous transmission, in dBm	| -94 | |
 | snr | number | SNR (Signal to Noise Ratio) of the previous transmission, in dB | 10 | |
 | internal_temperature | number | Internal device temperature, in °C. Please note that this cannot be used as an accurate measurement of environmental air temperature since it is normally higher due to the device components heating | 22 | |
-| operator | string | Mobile operator the device is currently connected to | "Vodafone Italy" | [^1] | 
-| band | number | Frequency band identifier | 20 | [^1] | 
-| reset_alarm | number | Indication that the device has rebooted. The value is set to 1 at the first transmission after the reboot. It resets to 0 at the second transmission after the reboot, and it is not sent again until next reboot | 1 | |
+| operator | string | Mobile operator the device is currently connected to | "Vodafone Italy" | [^1] |
+| band | number | Frequency band identifier | 20 | [^1] |
+| reset_alarm | number | Indication that the device has rebooted. The value is set at the first transmission after the reboot. It resets to 0 at the second transmission after the reboot, and it is not sent again until next reboot. Possible values are: 1: Power on or brownout, 2: Reset from pin, 3: Watchdog, 4: Hardware fault, 5: Soft reset, 6: System off | 1 | |
 | reset_count | number | Reboot counter | 10 | [^2] |
 | conn_count | number | Connection counter | 5 | [^2] |
 | tx_count | number | Transmission counter | 100 | [^2] |
@@ -59,10 +59,10 @@ The `data` properties of the JSON can contain the following fields:
 | last_fota | timestamp | Date and time of the last FOTA attempt, in ISO 8601 format | "2025-04-17T06:41:57Z" | [^3] |
 
 ### Measures
-The `measures` array contains an element for each sampling. 
+The `measures` array contains an element for each sampling.
 
 Example:
-```json 
+```json
 {
     ...
     "data": {
@@ -72,7 +72,7 @@ Example:
                 "timestamp": "2025-04-22T09:30:00+00:00",
                 "pressure": 5746
             },
-            { 
+            {
                 "timestamp": "2025-04-22T09:25:00+00:00",
                 "pressure": 5749
             },
@@ -92,71 +92,94 @@ Each element of the array is identified by the property `timestamp` which indica
 - *flowrate*: indicates the flow rate reading, in l/s x 100
 - *volume*: indicates the volume count, in liters
 - *error*: this field is present only if the measure is affected by an error, indicating that it must be discarded. It can assume the following values:
-  | Value | Meaning |  
-  | - | - |   
-  | 1 | Tamper | 
+  | Value | Meaning |
+  | - | - |
+  | 1 | Tamper |
 
 #### *VIDI Pressure* measure fields
 - *pressure*: indicates the pressure reading, in mbar
 - *error*: this field is present only if the measure is affected by an error, indicating that it must be discarded. It can assume the following values:
-  | Value | Meaning |  
-  | - | - |   
-  | 1 | Tamper | 
+  | Value | Meaning |
+  | - | - |
+  | 1 | Tamper |
   | 2 | Sensor fault |
-  | 3 | Value too low | 
+  | 3 | Value too low |
   | 4 | Value too high |
 
 #### *VIDI Temperature* measure fields
 - *temperature*: indicates the temperature reading, in Celsius degrees x 100
 - *error*: this field is present only if the measure is affected by an error, indicating that it must be discarded. It can assume the following values:
-  | Value | Meaning |  
-  | - | - |   
-  | 1 | Tamper | 
+  | Value | Meaning |
+  | - | - |
+  | 1 | Tamper |
   | 2 | Measure out of scale |
-  | 3 | Sensor fault | 
+  | 3 | Sensor fault |
 
 #### *VIDI Level* measure fields
 - *level*: indicates the level reading, in mm
 - *error*: this field is present only if the measure is affected by an error, indicating that it must be discarded. It can assume the following values:
-  | Value | Meaning |  
-  | - | - |   
-  | 1 | Tamper | 
+  | Value | Meaning |
+  | - | - |
+  | 1 | Tamper |
   | 2 | Sensor absent |
   | 3 | Target too close |
-  | 4 | Target too far | 
+  | 4 | Target too far |
 
 #### VIDI Positioner measure fields
 - *position*: indicates the number of quarter of rounds
 - *error*: this field is present only if the measure is affected by an error, indicating that it must be discarded. It can assume the following values:
-  | Value | Meaning |  
-  | - | - |   
-  | 1 | Not yet calibrated | 
+  | Value | Meaning |
+  | - | - |
+  | 1 | Not yet calibrated |
   | 2 | During calibration |
   | 3 | Calibration error |
 
-#### VIDI Open Close measure fields
-- *position*: indicates the position of the valve:  
-  | Value | Meaning |  
-  | - | - |  
-  | 0 | Close position |  
-  | 1 | Intermediate position |  
+#### VIDI Open/Close measure fields
+
+>  Note: The device has 2 operating modes: standard and independent.
+
+**Standard mode**: the two proximity switches are installed at the ends of the same valve. In this case, the measure fields are:
+
+- *sw1*: indicates the status of the valve:
+
+  | Value | Meaning |
+  | - | - |
+  | 0 | Closed position |
+  | 1 | Intermediate position |
   | 2 | Open position |
+
 - *error*: this field is present only if the measure is affected by an error, indicating that it must be discarded. It can assume the following values:
-  | Value | Meaning |  
-  | - | - |   
-  | 1 | Sensor fault, the two contacts are activated at the same time | 
 
-  
+  | Value | Meaning |
+  | - | - |
+  | 1 | Sensor fault (the two contacts are activated at the same time) |
+
+**Independent mode**: the two proximity switches are installed independently from each other. It is possible to use only the first one, only the second one or both. In this case, the measure fields are:
+
+- *sw1*: indicates the status of the first switch:
+
+  | Value | Meaning |
+  | - | - |
+  | 0 | Open contact |
+  | 1 | Closed contact |
+
+- *sw2*: indicates the status of the second switch:
+
+  | Value | Meaning |
+  | - | - |
+  | 0 | Open contact |
+  | 1 | Closed contact |
+
 ### Alarms
-The `alarms` array contains an element for each alarm event. An event can be either the device entering to alarm condition or the device returning to normal condition.  
-If the device doesn't have any alarms to be transmitted, the `alarms` field will not be present in the JSON. Furthermore, the `alarm` array can only be present in *VIDI Pressure*, *VIDI Flow*, *VIDI Temperature*, *VIDI Level*.  
+The `alarms` array contains an element for each alarm event. An event can be either the device entering to alarm condition or the device returning to normal condition.
+If the device doesn't have any alarms to be transmitted, the `alarms` field will not be present in the JSON. Furthermore, the `alarm` array can only be present in *VIDI Pressure*, *VIDI Flow*, *VIDI Temperature*, *VIDI Level*.
 
-Example: 
+Example:
 ```json
 {
     ...
     "data": {
-        ...   
+        ...
         "alarms": [
             {
                 "timestamp": "2025-03-05T18:55:00+00:00",
@@ -177,30 +200,31 @@ Each element of the array contains the field `timestamp`, that indicates the dat
 | pressure | (Applies only to *VIDI Pressure*) the value that has generated the *low_alarm* or *high_alarm* event |
 | level | (Applies only to *VIDI Level*) the value that has generated the *low_alarm* or *high_alarm* event |
 | temperature | (Applies only to *VIDI Temperature*) the value that has generated the *low_alarm* or *high_alarm* event |
-| tamper_alarm | Applies only to *VIDI Flow*, *VIDI Pressure*, *VIDI Level*, *VIDI Temperature*. If set to 1, the device has entered the tamper alarm condition; if set to 0, the device has returned from tamper alarm condition | 
+| tamper_alarm | Applies only to *VIDI Flow*, *VIDI Pressure*, *VIDI Level*, *VIDI Temperature*. If set to 1, the device has entered the tamper alarm condition; if set to 0, the device has returned from tamper alarm condition |
 | sensor_fault | Applies only to *VIDI Pressure*, *VIDI Level*, *VIDI Temperature*. If set to 1, the device has entered the sensor fault condition; if set to 0, the device has returned from sensor fault condition |
- 
 
-⚠️ The alarm information is only transmitted when the alarm is triggered and when it returns. During the alarm condition, the device does not repeat the information. The server must keep the state of the alarm condition. If the device reboots, the state of the alarm is lost. For this reason, the server must clear any alarm conditions after each reset (presence of the property `"reset_alarm": 1` in the payload). If the alarm condition is still present, the device will send it again. 
- 
- 
+
+⚠️ The alarm information is only transmitted when the alarm is triggered and when it returns. During the alarm condition, the device does not repeat the information. The server must keep the state of the alarm condition. If the device reboots, the state of the alarm is lost. For this reason, the server must clear any alarm conditions after each reset (presence of the property `"reset_alarm": 1` in the payload). If the alarm condition is still present, the device will send it again.
+
+
 ### Read/Write fields
-| Name	| Type | Description | 	Example  | Notes | 
+| Name	| Type | Description | 	Example  | Notes |
 | ----- | ---- | ----------- | --------  | ----- |
 | tx_interval | number | Transmission interval, in seconds | 3600 | [^4] |
 | sampling_interval | number | Sampling interval, in seconds | 300 | [^4] |
 | full_scale | number | Applies to:<br> - *VIDI Pressure*: indicates the full scale in mBar of the pressure sensor (default 16000)<br> - *VIDI Level*: indicates the full scale in mm of the level sensor (default 5000)<br> - VIDI Positioner: indicates the number of quarter of rounds equivalent to the full-open position (the value is variable and it is given by the calibration) | 16000 |
 | pulse_weight | number | Applies only to *VIDI Flow*. It indicates the weight for each pulse generated by the flow meter, expressed in cubic meter per pulse | 0.01 | |
 | installation_height | number | Applies only to *VIDI Level*. It indicates the distance in mm from the level sensor to the floor of the tank or the ground | 3000 | |
-| tx_delay | number | Applies only to VIDI Positioner and VIDI Open Close. It indicates the delay in seconds between the detection of the change of state and the transmission | | 
-| closing_direction | number | Applies only to VIDI Positioner. It indicates the valve closing direction:<br> 0: clockwise<br>1: anti-clockwise	| 0 | | 
-| hi_curr_count | number | Applies only to *VIDI Flow*. If set to 1, the device sets the pullup to 47 Kohm on the input pin. It must be set when (usually on electronic flow meters) the input impedance is not negligible and could prevent the correct pulse detection | | |	 
+| tx_delay | number | Applies only to VIDI Positioner and VIDI Open/Close. It indicates the delay in seconds between the detection of the change of state and the transmission | |
+| closing_direction | number | Applies only to VIDI Positioner. It indicates the valve closing direction:<br> 0: clockwise<br>1: anti-clockwise	| 0 | |
+| hi_curr_count | number | Applies only to *VIDI Flow*. If set to 1, the device sets the pullup to 47 Kohm on the input pin. It must be set when (usually on electronic flow meters) the input impedance is not negligible and could prevent the correct pulse detection | | |
+| pulse_count | number | Applies only to *VIDI Flow*. Allows to replace the current count with a custom value | | |
 | low_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a low alarm | 0 | |
 | high_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a high alarm | 0 | |
 | dig_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a digital alarm (e.g. tamper or sensor fault) | 0 | |
-| low_alarm_threshold | number | Low alarm threshold, in engineering unit | 2 | |
-| high_alarm_threshold | number | High alarm threshold, in engineering unit | 10 | |
-| hysteresis | number | Value of hysteresis value, in engineering unit | 0.1 | | 
+| low_alarm_threshold | number | Low alarm threshold, in engineering unit. Set to 2147483647 to disable | 2 | |
+| high_alarm_threshold | number | High alarm threshold, in engineering unit. Set to 2147483647 to disable | 10 | |
+| hysteresis | number | Value of hysteresis value, in engineering unit | 0.1 | |
 | low_alarm_delay | number | Value of the alarm delay for the low threshold, in minutes. If set to 0, alarm is triggered immediately | 0 | |
 | high_alarm_delay | number | Value of the alarm delay for the high threshold, in minutes. If set to 0, alarm is triggered immediately | 0 | |
 | dig_alarm_delay | number | Value of the alarm delay for the digital alarms, in minutes. If set to 0, alarm is triggered immediately | 0 | |
@@ -218,13 +242,13 @@ Each element of the array contains the field `timestamp`, that indicates the dat
 | name | string | Name of the device | "Pres-A0000001" | |
 | latitude | number | Installation latitude | 43.700531 | |
 | longitude | number | Installation longitude | 10.903978 | |
- 
+
 
 ### Commands
-| Name	| Type | Description | 	Example  | Notes | 
+| Name	| Type | Description | 	Example  | Notes |
 | ----- | ---- | ----------- | --------  | ----- |
-| reset | number | Command to ask the device to reboot, by setting the parameter to 1 | `{"reset": 1}` | | 
-| fota | number | Command to ask the device to start the FOTA procedure, by setting the parameter to 1 | `{"fota": 1}` | | 
+| reset | number | Command to ask the device to reboot, by setting the parameter to 1 | `{"reset": 1}` | |
+| fota | number | Command to ask the device to start the FOTA procedure, by setting the parameter to 1 | `{"fota": 1}` | |
 | get_config | number | Command to ask the device to transmit its full configuration, by setting the parameter to 1 | `{"get_config": 1}` | |
 | test_mode | number | Command to ask the device to go in test mode, for the given number of transmissions. During the test mode, the device transmits after each sampling. After the transmissions are elapsed, the device goes back to working in standard mode | `{"test_mode": 5}` | |
 | debug_mode | number | Command to ask the device to go in debug mode, for the given number of transmissions. During the debug mode, the device behaves normally but adds in the transmission payload debug information (e.g., uptime and statistics). After the transmissions are elapsed, the device goes back to working in standard mode | `{"debug_mode": 10}` | |
@@ -232,8 +256,8 @@ Each element of the array contains the field `timestamp`, that indicates the dat
 
 
 #### FOTA states
-| Value | Meaning |  
-| - | - |   
+| Value | Meaning |
+| - | - |
 | 0 | Upgrading |
 | 1 | Firmware updated successfully |
 | 2 | Already to latest version |
@@ -244,7 +268,7 @@ Each element of the array contains the field `timestamp`, that indicates the dat
 | 7 | New firmware unable to boot |
 | 8 | Firmware update failed |
 
-[^1]: Sent only in the first transmission after reboot or in response to the `get_config` command	
+[^1]: Sent only in the first transmission after reboot or in response to the `get_config` command
 [^2]: Sent only when the debug mode is active
 [^3]: Sent only in the first transmission after a FOTA attempt (either successful or unsuccessful)
 [^4]: The configuration triggers the reboot of the device
