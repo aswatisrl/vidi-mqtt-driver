@@ -27,10 +27,12 @@ The following network ports must be open in your firewall:
 
 | Port | Protocol | Direction | Description |
 |------|----------|-----------|-------------|
-| 5683 | UDP | Device → Server | CoAP communication |
-| 123  | UDP | Device → Server | NTP time synchronization (backup in case the device is not able to sync time from the mobile network) |
-| 1883 | TCP | Client → Server | MQTT broker |
-| 80   | TCP | Client → Server | Web frontend and API |
+| 5683 | UDP | Device → Driver | CoAP communication |
+| 123  | UDP | Device → Driver | NTP time synchronization * |
+| 1883 | TCP | Client → Driver | MQTT broker |
+| 80   | TCP | Client → Driver | Web frontend and API |
+
+* NTP is used as backup in case the device is not able to sync time from the mobile network
 
 During the setup you will also need a valid license and the credentials for pulling the images from the Container Registry. Please contact your sales representative or authorized reseller to obtain them.
 
