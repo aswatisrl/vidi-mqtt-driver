@@ -23,6 +23,15 @@ The hardware specifications mainly depend on the number of devices and the sampl
 - 4 GB RAM
 - 20 GB storage
 
+The following network ports must be open in your firewall:
+
+| Port | Protocol | Direction | Description |
+|------|----------|-----------|-------------|
+| 5683 | UDP | Device → Server | CoAP communication |
+| 123  | UDP | Device → Server | NTP time synchronization (backup in case the device is not able to sync time from the mobile network) |
+| 1883 | TCP | Client → Server | MQTT broker |
+| 80   | TCP | Client → Server | Web frontend and API |
+
 During the setup you will also need a valid license and the credentials for pulling the images from the Container Registry. Please contact your sales representative or authorized reseller to obtain them.
 
 ### Login to the container repository
