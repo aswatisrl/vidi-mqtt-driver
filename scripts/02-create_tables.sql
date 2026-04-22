@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `notes` text,
   `timezone` varchar(45) DEFAULT NULL,
   `calendar` text,
+  `app_id` int DEFAULT NULL,
   PRIMARY KEY (`serial`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
