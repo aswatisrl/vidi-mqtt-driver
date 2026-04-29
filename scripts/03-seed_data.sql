@@ -4,6 +4,7 @@ INSERT INTO `device_types` VALUES ('14','VIDI Open Close'),('16','VIDI Flow'),('
 
 INSERT INTO `hardware_types` VALUES ('PRV_0','VIDI PRV Controller'),('TR2_0','VIDI Transmitter 2.0 ver 2024, based on Nordic nRF9160'),('TR2_5','VIDI Transmitter 2.0 ver 2024, based on Nordic nRF9160');
 
-INSERT INTO `settings` VALUES (1,'use_local_broker','1'),(2,'mqtt_broker','192.168.1.1'),(3,'mqtt_username','vidimqtt'),(4,'mqtt_password','vidimqtt'),(5,'mqtt_qos','1'),(6,'mqtt_topic_uplink','application/COAP/device/{{serial}}/uplink');
+INSERT INTO `settings` VALUES (1,'use_local_broker','1'),(2,'mqtt_broker','192.168.1.1'),(3,'mqtt_username','vidimqtt'),(4,'mqtt_password','vidimqtt'),(5,'mqtt_qos','1'),(6,'mqtt_topic_uplink','application/COAP/{{app_id}}/device/{{serial}}/uplink');
 
-INSERT INTO `users` (`username`,`password`,`can_manage_users`,`can_read_devices`,`can_write_devices`,`can_send_downlink`,`can_manage_integrations`) VALUES ('admin','$2a$10$3mQ2F9owX3VEeOaiweyNpuNELcC7OaERlhIS4QUsk0UZlCXFww5tq',1,1,1,1,1);
+INSERT INTO `users` (`username`,`password`,`is_admin`,`can_read_devices`,`can_write_devices`,`can_send_downlink`) VALUES ('admin','$2a$10$3mQ2F9owX3VEeOaiweyNpuNELcC7OaERlhIS4QUsk0UZlCXFww5tq',1,1,1,1);
+
