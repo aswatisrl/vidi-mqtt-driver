@@ -170,6 +170,23 @@ CREATE TABLE IF NOT EXISTS `mobile_devices` (
   CONSTRAINT `fk_mobile_devices_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+CREATE TABLE IF NOT EXISTS `registration_tokens` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `target_user_id` int NOT NULL,
+  `created_by` int NOT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `expires_at` datetime NOT NULL,
+  `max_uses` int DEFAULT NULL,
+  `used_count` int NOT NULL DEFAULT 0,
+  `revoked` tinyint(1) NOT NULL DEFAULT 0,
+  `label` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_regtoken_target_idx` (`target_user_id`),
+  KEY `fk_regtoken_creator_idx` (`created_by`),
+  CONSTRAINT `fk_regtoken_target` FOREIGN KEY (`target_user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_regtoken_creator` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 CREATE TABLE IF NOT EXISTS `firmware_hwtype_compatibility` (
   `hardware_type` varchar(16) NOT NULL,
   `firmware_version` int NOT NULL,
