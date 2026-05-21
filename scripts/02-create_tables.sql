@@ -58,6 +58,8 @@ CREATE TABLE IF NOT EXISTS `devices` (
   `timezone` varchar(45) DEFAULT NULL,
   `calendar` text,
   `app_id` int DEFAULT NULL,
+  `deactivated_at` datetime DEFAULT NULL,
+  `deactivated_by` int DEFAULT NULL,
   PRIMARY KEY (`serial`),
   KEY `fk_devices_application_idx` (`app_id`),
   CONSTRAINT `fk_devices_application` FOREIGN KEY (`app_id`) REFERENCES `applications` (`id`) ON DELETE SET NULL
