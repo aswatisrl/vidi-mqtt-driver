@@ -195,3 +195,29 @@ CREATE TABLE IF NOT EXISTS `firmware_hwtype_compatibility` (
   CONSTRAINT `fk_firmware_version` FOREIGN KEY (`firmware_version`) REFERENCES `firmware_versions` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_hardware_types` FOREIGN KEY (`hardware_type`) REFERENCES `hardware_types` (`hw_type`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `device_installations` (
+  `id`          int NOT NULL AUTO_INCREMENT,
+  `serial`      varchar(8) NOT NULL,
+  `device_name` varchar(255) NOT NULL,
+  `latitude`    decimal(10, 8) NOT NULL,
+  `longitude`   decimal(11, 8) NOT NULL,
+  `author_id`   int NOT NULL,
+  `created_at`  datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_installation_serial_idx` (`serial`),
+  KEY `fk_installation_author_idx` (`author_id`),
+  CONSTRAINT `fk_installation_serial` FOREIGN KEY (`serial`) REFERENCES `devices` (`serial`) ON DELETE CASCADE,
+  CONSTRAINT `fk_installation_author` FOREIGN KEY (`author_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `installation_photos` (
+  `id`              int NOT NULL AUTO_INCREMENT,
+  `installation_id` int NOT NULL,
+  `filename`        varchar(255) NOT NULL,
+  `original_name`   varchar(255) NOT NULL,
+  `created_at`      datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `fk_photo_installation_idx` (`installation_id`),
+  CONSTRAINT `fk_photo_installation` FOREIGN KEY (`installation_id`) REFERENCES `device_installations` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
