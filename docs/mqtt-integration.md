@@ -74,6 +74,7 @@ The JSON contains the following fields:
 | 24 | VIDI Positioner | VIDI Positioner |
 | 28 | VIDI PRV | VIDI PRV |
 | 29 | VIDI Transmitter | VIDI Positioner with ext. antenna |
+| 30 | VIDI Level | VIDI Level with submersible probe |
 | 31 | VIDI Transmitter | VIDI Leak |
 
 ## Scheduling downlinks
