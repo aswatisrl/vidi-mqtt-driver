@@ -99,7 +99,10 @@ vernemq:
 
 #### Service `api-server`
 - Replace `<MYSQL_USER_PASSWORD>` with the password specified in the *mysql* service.
-- Replace `<JWT_SECRET_KEY>` with a key of your choice, UTF-8 encoded. We recommend at least 32 characters. This key is used by the API Server to sign and verify the JSON Web Tokens.
+- Replace `<JWT_SECRET_KEY>` with a key of your choice, UTF-8 encoded. We recommend at least 32 characters. This key is used by the API Server to sign and verify the JSON Web Tokens. You can generate a valid key using the openssl utility available on a Linux console:
+```
+openssl rand -base64 32
+```
 - If you disabled anonymous login in the *vernemq* service, set the `MQTT_USERNAME` and `MQTT_PASSWORD` environment variables with the username and password you specified.
 - The default repository for the device firmware is:
 
