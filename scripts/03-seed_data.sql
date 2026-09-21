@@ -2,7 +2,7 @@ USE `coap_server`;
 
 INSERT INTO `device_types` VALUES ('14','VIDI Open Close'),('16','VIDI Flow'),('17','VIDI Pressure'),('18','VIDI Temp'),('23','VIDI Level'),('24','VIDI Positioner'),('28','VIDI PRV Controller'),('29','VIDI Positioner with ext. antenna'),('30','VIDI Level with submersible probe'),('31','VIDI Leak'),('32','VIDI Positioner 2.0'),('33','VIDI Weather Shield');
 
-INSERT INTO `hardware_types` VALUES ('PRV_0','VIDI PRV Controller'),('TR2_0','VIDI Transmitter 2.0 ver 2024, based on Nordic nRF9160'),('TR2_5','VIDI Transmitter 2.0 ver 2024, based on Nordic nRF9160');
+INSERT INTO `hardware_types` VALUES ('PRV_0','VIDI PRV Controller ver 2025'),('TR2_0','VIDI Transmitter 2.0 ver 2024'),('TR3_0','VIDI Transmitter 3.0 ver 2026'),('POS2_0','VIDI Positioner 2.0 ver 2026');
 
 INSERT INTO `settings` VALUES (1,'use_local_broker','1'),(2,'mqtt_broker','192.168.1.1'),(3,'mqtt_username','vidimqtt'),(4,'mqtt_password','vidimqtt'),(5,'mqtt_qos','1'),(6,'mqtt_topic_uplink','application/COAP/{{app_id}}/device/{{serial}}/uplink');
 
