@@ -76,6 +76,8 @@ services:
       - DB_SCHEMA=coap_server
       - JWT_PRIVATE_KEY=<JWT_SECRET_KEY>
       - FIRMWARE_REPO=https://vidimanager.asw-ati.com/api/fota/
+      - BASE_URL=http://localhost
+      - ED25519_PRIVATE_KEY=<ED25519_PRIVATE_KEY>
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/api/info"]
       interval: 30s
