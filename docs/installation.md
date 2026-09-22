@@ -105,6 +105,12 @@ vernemq:
 ```
 openssl rand -base64 32
 ```
+- Replace `<ED25519_PRIVATE_KEY>` with an Ed25519 private key, provided as the raw 32-byte key encoded in Base64. This key is used by the API Server to sign the tokens downloaded by the mobile app, which the app needs in order to communicate with the BLE devices. The corresponding public key is exposed through the API. If the key is not set, the tokens cannot be generated and the mobile app will not be able to communicate with the BLE devices. You can generate a valid key using the openssl utility available on a Linux console:
+```
+openssl rand -base64 32
+```
+  ⚠️ Keep this key secret. If you change it, the tokens already downloaded by the mobile apps will no longer be valid and must be downloaded again.
+- Replace the value of `BASE_URL` with the public URL used to reach the Driver (e.g. `https://vidi.example.com`), without the trailing slash. This URL is used by the API Server to build the registration links (and the related QR codes) for the mobile devices, so it must be reachable by the smartphones. If the variable is removed, the API Server derives the URL from the incoming request. The default value `http://localhost` is only suitable for local testing.
 - If you disabled anonymous login in the *vernemq* service, set the `MQTT_USERNAME` and `MQTT_PASSWORD` environment variables with the username and password you specified.
 - The default repository for the device firmware is:
 
