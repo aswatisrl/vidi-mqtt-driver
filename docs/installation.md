@@ -123,7 +123,7 @@ Example:
   - FIRMWARE_REPO=local
   ```
 - This software requires a valid license in order to function. Without a license, the application will not operate. You need to provide either a `LICENSE_TOKEN` or a `LICENSE_KEY`.
-- If you own a `LICENSE_TOKEN`, replace `<LICENSE_TOKEN>` with your token. Remove the line with `LICENSE_KEY`. The software will operate for the duration of the token's validity. Before the token expires, make sure to obtain a new one from your sales representative, update the value and restart the container with `docker compose up -d api-server`
+- If you own a `LICENSE_TOKEN`, replace `<LICENSE_TOKEN>` with your token. Remove the line with `LICENSE_KEY`. The software will operate for the duration of the token's validity. Before the token expires, make sure to obtain a new one from your sales representative, update the value and restart the container with `docker compose up -d`
 - If you own a `LICENSE_KEY`, replace `<LICENSE_KEY>` with your license key. Remove the line with `LICENSE_TOKEN`. The software uses an online license server to make sure your license is valid. Once per day, the application contacts the license server. If the license is valid, the server issues a token that remains valid for 7 days. Make sure your system has internet access and that no firewall rules are blocking outbound HTTPS traffic (port 443) to the license server. The following information is transmitted daily to the license server:
     - The license key
     - The version of the running containers
