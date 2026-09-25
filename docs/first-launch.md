@@ -63,7 +63,7 @@ If you changed the *admin* password but you lost it, you can force the API Serve
 
 Finally, restart the container with the commands
 ```console
-docker compose up -d api-server
+docker compose up -d
 ```
 
 Now you can access the web interface `http://<host>` with `admin/admin` credentials and change the password as indicated above.
