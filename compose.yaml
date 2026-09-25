@@ -142,6 +142,7 @@ services:
     depends_on:
       api-server:
         condition: service_healthy
+        restart: true
 
   ntp:
     image: cturra/ntp:latest
