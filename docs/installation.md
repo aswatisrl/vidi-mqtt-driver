@@ -38,11 +38,11 @@ The following network ports must be open in your firewall:
 
 The host running the driver must also be able to reach the following domains over HTTPS (outbound TCP 443):
 
-| Domain | When it is needed | Description |
-|--------|-------------------|-------------|
-| `cr.asw-ati.com` | Installation and updates | ASW-ATI Container Registry, used to pull the driver images |
-| Docker Hub (`registry-1.docker.io`) | Installation and updates | Third-party images (MySQL, VerneMQ, Redis, NTP) |
-| `vidimanager.asw-ati.com` | Online license validation and Firmware download for FOTA updates ² | Online license validation and firmware repository for FOTA updates |
+| Domain | When it is needed |
+|--------|-------------------|
+`cr.asw-ati.com` | ASW-ATI Container Registry, used to pull the driver images for installation and updates |
+| `registry-1.docker.io` | Docker Hub Container Registrym used to pull third-party images (MySQL, VerneMQ, Redis, NTP) for installation and updates |
+| `vidimanager.asw-ati.com` | Online license validation and Firmware download for FOTA updates ² |
 
 > ² Not required if you use a `LICENSE_TOKEN` and the local firmware repository (`FIRMWARE_REPO=local`), see [Preliminary configuration](#preliminary-configuration)
 
