@@ -36,6 +36,17 @@ The following network ports must be open in your firewall:
 
 > ¹ NTP is used as backup in case the device is not able to sync time from the mobile network
 
+The host running the driver must also be able to reach the following domains over HTTPS (outbound TCP 443):
+
+| Domain | When it is needed | Description |
+|--------|-------------------|-------------|
+| `cr.asw-ati.com` | Installation and updates | ASW-ATI Container Registry, used to pull the driver images |
+| `vidimanager.asw-ati.com` | Always, if using a `LICENSE_KEY` | Online license validation (once per day) |
+| `vidimanager.asw-ati.com` | If `FIRMWARE_REPO` points to the remote repository | Firmware download for FOTA updates |
+| Docker Hub (`registry-1.docker.io`) | Installation and updates | Third-party images (MySQL, VerneMQ, Redis, NTP) |
+
+If outbound Internet traffic is not allowed, use a `LICENSE_TOKEN` and set `FIRMWARE_REPO=local` (see [Preliminary configuration](#preliminary-configuration)).
+
 During the setup you will also need a valid license and the credentials for pulling the images from the Container Registry. Please contact your sales representative or authorized reseller to obtain them.
 
 ### Login to the container repository
