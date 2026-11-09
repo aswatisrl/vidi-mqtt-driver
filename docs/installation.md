@@ -42,6 +42,8 @@ The host running the driver must also be able to reach the following domains ove
 |--------|-------------|
 | `cr.asw-ati.com` | ASW-ATI Container Registry, used to pull the driver images for installation and updates |
 | `registry-1.docker.io` | Docker Hub Container Registry, used to pull third-party images (MySQL, VerneMQ, Redis, NTP) for installation and updates |
+| `auth.docker.io` | Docker Hub authentication, issues the tokens required to pull from `registry-1.docker.io` |
+| `production.cloudflare.docker.com` | Docker Hub CDN, serves the image layers of the third-party images |
 | `vidimanager.asw-ati.com` | Online license validation and firmware download for FOTA updates ² |
 
 > ² Not required if you use a `LICENSE_TOKEN` and the local firmware repository (`FIRMWARE_REPO=local`), see [Preliminary configuration](#preliminary-configuration)
