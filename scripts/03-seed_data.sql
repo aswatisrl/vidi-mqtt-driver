@@ -1,6 +1,6 @@
 USE `coap_server`;
 
-INSERT INTO `device_types` VALUES ('14','VIDI Open Close'),('16','VIDI Flow'),('17','VIDI Pressure'),('18','VIDI Temp'),('23','VIDI Level'),('24','VIDI Positioner'),('28','VIDI PRV Controller'),('29','VIDI Positioner with ext. antenna'),('30','VIDI Level with submersible probe'),('31','VIDI Leak'),('32','VIDI Positioner 2.0'),('33','VIDI Hydrant Guard'),('34','VIDI VIDI Solar'),('35','VIDI Multi');
+INSERT INTO `device_types` VALUES ('14','VIDI Open Close'),('16','VIDI Flow'),('17','VIDI Pressure'),('18','VIDI Temp'),('23','VIDI Level'),('24','VIDI Positioner'),('28','VIDI PRV Controller'),('29','VIDI Positioner with ext. antenna'),('30','VIDI Level with submersible probe'),('31','VIDI Leak'),('32','VIDI Positioner 2.0'),('33','VIDI Hydrant Guard'),('34','VIDI Solar'),('35','VIDI Multi');
 
 INSERT INTO `hardware_types` VALUES ('PRV_0','VIDI PRV Controller ver 2025'),('TR2_0','VIDI Transmitter 2.0 ver 2024'),('TR3_0','VIDI Transmitter 3.0 ver 2026'),('POS2_0','VIDI Positioner 2.0 ver 2026'),('SOL_0','VIDI Solar/Multi');
 
