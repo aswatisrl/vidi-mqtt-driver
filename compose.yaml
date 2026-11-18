@@ -12,15 +12,15 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./scripts:/docker-entrypoint-initdb.d
-      - ./db_data:/var/lib/mysql
+      - ./scripts:/docker-entrypoint-initdb.d:z
+      - ./db_data:/var/lib/mysql:z
 
   vernemq:
     image: vernemq/vernemq:2.0.1
     container_name: vernemq
     restart: always
     volumes:
-      - ./lua_scripts:/vernemq/share/lua/custom:ro
+      - ./lua_scripts:/vernemq/share/lua/custom:ro,z
     ports:
       - 1883:1883
       - 8888:8888
@@ -54,8 +54,8 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./logs-apiserver:/usr/src/app/logs
-      - ./uploads:/usr/src/app/uploads
+      - ./logs-apiserver:/usr/src/app/logs:z
+      - ./uploads:/usr/src/app/uploads:z
     environment:
       - LICENSE_KEY=<LICENSE_KEY>
       - LICENSE_TOKEN=<LICENSE_TOKEN>
@@ -117,7 +117,7 @@ services:
     ports:
       - 5683:5683/udp
     volumes:
-      - ./logs-gateway:/opt/coap_server/logs
+      - ./logs-gateway:/opt/coap_server/logs:z
     environment:
       - API_TOKEN=<API_TOKEN>
       - API_HOST=api-server
