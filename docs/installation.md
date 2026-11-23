@@ -122,7 +122,7 @@ openssl rand -base64 32
 openssl rand -base64 32
 ```
   ⚠️ Keep this key secret. If you change it, the tokens already downloaded by the mobile apps will no longer be valid and must be downloaded again.
-- Replace the value of `BASE_URL` with the public URL used to reach the Driver (e.g. `https://vidi.example.com`), without the trailing slash. This URL is used by the API Server to build the registration links (and the related QR codes) for the mobile devices, so it must be reachable by the smartphones. If the variable is removed, the API Server derives the URL from the incoming request. The default value `http://localhost` is only suitable for local testing.
+- Replace `<BASE_URL>` with the public URL used to reach the Driver (e.g. `https://vidi.example.com`), without the trailing slash. This URL is used by the API Server to build the registration links (and the related QR codes) for the mobile devices, so it must be reachable by the smartphones: do not use `localhost` or `127.0.0.1`. If the value is wrong, the QR codes shown in the web interface will not work on the smartphones. At startup, the API Server writes a warning in its log if `BASE_URL` is not set, still contains the placeholder or points to a local address.
 - If you disabled anonymous login in the *vernemq* service, set the `MQTT_USERNAME` and `MQTT_PASSWORD` environment variables with the username and password you specified.
 - The default repository for the device firmware is:
 
