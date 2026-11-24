@@ -25,7 +25,7 @@ Example:
 ```
 
 The `data` properties of the JSON can contain the following fields:
-- Read-only fields: they are written by the device and can only be read by the server
+- Read-only fields: they are written by the device and can only be read by the server. If a downlink contains a read-only field (or a field unknown to the device type), the field is not sent to the device and the command ends as failed
 - Read/Write fields: they can be read and written both by the device and by the server
 - Commands: they are used by the server to issue a command to the device. To issue a command, the property must be written with the parameter `1` (or a different number if the command supports parameterization)
 
@@ -35,10 +35,11 @@ The `data` properties of the JSON can contain the following fields:
 | ----- | ---- | ----------- | --------  | ----- |
 | fw_version | string | Version of the firmware, in SemVer format | "1.0.2-beta.01" | [^1] |
 | hw_version | string | Version of the hardware | "TR2_1" | [^1] |
+| modem_version | string | Version of the modem firmware | | [^1] |
 | measures | array | Array of measures, see documentation below | | |
-| alarms | array | Array of alarms, see documentation below | | |
+| alarms | array | Array of alarms, see documentation below. Not present in *VIDI Positioner* | | |
 | battery_voltage | number | Battery voltage, in millivolts | 3699 | |
-| battery_charge | number | Battery state of charge, in percentage | 100 | |
+| battery_level | number | Battery state of charge, in percentage | 100 | |
 | rsrp | number | RSRP (Reference Signals Received Power) of the previous transmission, in dBm	| -94 | |
 | snr | number | SNR (Signal to Noise Ratio) of the previous transmission, in dB | 10 | |
 | internal_temperature | number | Internal device temperature, in °C. Please note that this cannot be used as an accurate measurement of environmental air temperature since it is normally higher due to the device components heating | 22 | |
@@ -55,8 +56,9 @@ The `data` properties of the JSON can contain the following fields:
 | fota_count | number | FOTA attempts counter | 10 | [^2] |
 | cell_id | number | Id of the cell the device is currently connected to | 14129519 | [^2] |
 | tracking_area | number | Tracking Area the device is currently connected to | 37092 | [^2] |
-| last_fota_status | string | Outcome of the last FOTA attempt, see [FOTA states](#fota-states) | "Firmware updated successfully" | [^3] |
+| last_fota_status | number | Outcome code of the last FOTA attempt, see [FOTA states](#fota-states) | 1 | [^3] |
 | last_fota | timestamp | Date and time of the last FOTA attempt, in ISO 8601 format | "2025-04-17T06:41:57Z" | [^3] |
+| calibration_status | number | Applies only to *VIDI Positioner*. Status of the calibration process, provided when the device is not calibrated. Possible values are: 0: Calibrated, 1: Not calibrated, 2: Calibration in progress, 3: Calibration fault | 1 | |
 
 ### Measures
 The `measures` array contains an element for each sampling.
@@ -125,8 +127,9 @@ Each element of the array is identified by the property `timestamp` which indica
   | 3 | Target too close |
   | 4 | Target too far |
 
-#### VIDI Positioner measure fields
+#### *VIDI Positioner* measure fields
 - *position*: indicates the number of quarter of rounds
+- *impact*: applies only to the *Hydrant Guard* variant. Counter of the impacts registered by the device (see `impact_sensitivity`; it can be reset with `impact_preset`)
 - *error*: this field is present only if the measure is affected by an error, indicating that it must be discarded. It can assume the following values:
   | Value | Meaning |
   | - | - |
@@ -134,9 +137,9 @@ Each element of the array is identified by the property `timestamp` which indica
   | 2 | During calibration |
   | 3 | Calibration error |
 
-#### VIDI Open/Close measure fields
+#### *VIDI Open/Close* measure fields
 
->  Note: The device has 2 operating modes: standard and independent. See *ocv_mode* in *Read-only fields*
+>  Note: The device has 2 operating modes: standard and independent. See *ocv_mode* in *Read/Write fields*
 
 **Standard mode**
 
@@ -212,24 +215,28 @@ Each element of the array contains the field `timestamp`, that indicates the dat
 | ----- | ---- | ----------- | --------  | ----- |
 | tx_interval | number | Transmission interval, in seconds | 3600 | [^4] |
 | sampling_interval | number | Sampling interval, in seconds | 300 | [^4] |
+| radio_on | number | If set to 0, the device switches off the radio and can no longer be reached remotely. Use it only to decommission the device (e.g. to save the battery while waiting for an on-site intervention) | 1 | [^5] |
 | full_scale | number | Applies to:<br> - *VIDI Pressure*: indicates the full scale in mBar of the pressure sensor (default 16000)<br> - *VIDI Level*: indicates the full scale in mm of the level sensor (default 5000)<br> - *VIDI Level with submersible probe*: indicates the full scale in cm of the pressure sensor (default 600)<br> - *VIDI Positioner*: indicates the number of quarter of rounds equivalent to the full-open position (the value is variable and it is given by the calibration) | 16000 |
 | pulse_weight | number | Applies only to *VIDI Flow*. It indicates the weight for each pulse generated by the flow meter, expressed in liters per pulse | 100 | |
 | installation_height | number | Applies only to *VIDI Level*. It indicates the distance in mm from the level sensor to the floor of the tank or the ground | 3000 | |
-| tx_delay | number | Applies only to VIDI Positioner and VIDI Open/Close. It indicates the delay in seconds between the detection of the change of state and the transmission | |
-| closing_direction | number | Applies only to VIDI Positioner. It indicates the valve closing direction:<br> 0: clockwise<br>1: anti-clockwise	| 0 | |
-| ocv_mode | number | Applies only to VIDI Open/Close. It indicates the operating mode. 0: Standard mode (the two proximity switches are installed at the ends of the same valve); 1: Independent mode, only first switch enabled; 2: Independent mode, only second switch enabled; 3: Independent mode, both switches enabled | 0 |
+| com_settings | string | Applies only to *VIDI Level*. Settings of the serial port used to communicate with the level sensor (e.g. baud rate and parity). Change it only when the sensor is replaced with a different model, which must implement exactly the same (proprietary) protocol | | |
+| tx_delay | number | Applies only to *VIDI Positioner* and *VIDI Open/Close*. It indicates the delay in seconds between the detection of the change of state and the transmission | 60 | |
+| impact_sensitivity | number | Applies only to *VIDI Positioner*, *Hydrant Guard* variant. Sensitivity of the impact detection, from 0 (disabled) to 5 (maximum sensitivity) | 3 | |
+| impact_preset | number | Applies only to *VIDI Positioner*, *Hydrant Guard* variant. Sets the impact counter (`impact` measure) to the given value: write 0 to reset it | 0 | |
+| closing_direction | number | Applies only to *VIDI Positioner*. It indicates the valve closing direction:<br> 0: clockwise<br>1: anti-clockwise	| 0 | |
+| ocv_mode | number | Applies only to *VIDI Open/Close*. It indicates the operating mode. 0: Standard mode (the two proximity switches are installed at the ends of the same valve); 1: Independent mode, only first switch enabled; 2: Independent mode, only second switch enabled; 3: Independent mode, both switches enabled | 0 |
 | hi_curr_count | number | Applies only to *VIDI Flow*. If set to 1, the device sets the pullup to 47 Kohm on the input pin. It must be set when (usually on electronic flow meters) the input impedance is not negligible and could prevent the correct pulse detection | | |
 | pulse_count | number | Applies only to *VIDI Flow*. Allows to replace the current count with a custom value | | |
-| low_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a low alarm | 0 | |
-| high_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a high alarm | 0 | |
-| dig_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a digital alarm (e.g. tamper or sensor fault) | 0 | |
-| low_alarm_threshold | number | Low alarm threshold, in engineering unit. Set to 2147483647 to disable | 2 | |
-| high_alarm_threshold | number | High alarm threshold, in engineering unit. Set to 2147483647 to disable | 10 | |
-| hysteresis | number | Value of hysteresis value, in engineering unit | 0.1 | |
-| low_alarm_delay | number | Value of the alarm delay for the low threshold, in minutes. If set to 0, alarm is triggered immediately | 0 | |
-| high_alarm_delay | number | Value of the alarm delay for the high threshold, in minutes. If set to 0, alarm is triggered immediately | 0 | |
-| dig_alarm_delay | number | Value of the alarm delay for the digital alarms, in minutes. If set to 0, alarm is triggered immediately | 0 | |
-| alarm_tx_time | number | If set to a value greater than 0, the device will execute a transmission after each sampling for the given amount of minutes after the detection of the alarm | 0 | |
+| low_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a low alarm. Not applicable to *VIDI Positioner* | 0 | |
+| high_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a high alarm. Not applicable to *VIDI Positioner* | 0 | |
+| dig_alarm_immediate_tx | number | If set to 1, the device transmits immediately after the detection of a digital alarm (e.g. tamper or sensor fault). Not applicable to *VIDI Positioner* | 0 | |
+| low_alarm_threshold | number | Low alarm threshold, in engineering unit. Set to 2147483647 to disable. Not applicable to *VIDI Positioner* | 2 | [^6] |
+| high_alarm_threshold | number | High alarm threshold, in engineering unit. Set to 2147483647 to disable. Not applicable to *VIDI Positioner* | 10 | [^6] |
+| hysteresis | number | Value of hysteresis value, in engineering unit. Not applicable to *VIDI Positioner* | 0.1 | |
+| low_alarm_delay | number | Value of the alarm delay for the low threshold, in minutes. If set to 0, alarm is triggered immediately. Not applicable to *VIDI Positioner* | 0 | |
+| high_alarm_delay | number | Value of the alarm delay for the high threshold, in minutes. If set to 0, alarm is triggered immediately. Not applicable to *VIDI Positioner* | 0 | |
+| dig_alarm_delay | number | Value of the alarm delay for the digital alarms, in minutes. If set to 0, alarm is triggered immediately. Not applicable to *VIDI Positioner* | 0 | |
+| alarm_tx_time | number | If set to a value greater than 0, the device will execute a transmission after each sampling for the given amount of minutes after the detection of the alarm. Not applicable to *VIDI Positioner* | 0 | |
 | remote_ip | string | IP Address of the CoAP server | "192.168.150.34" | [^4] [^5]  |
 | remote_port | number | UDP port the CoAP server is listening for incoming messages from the device | 5683 | [^4] [^5]  |
 | net_mode | number | Mobile Network<br> 1: LTE-M<br>2: NB-IoT | 2 | [^4] [^5] |
@@ -275,4 +282,4 @@ Each element of the array contains the field `timestamp`, that indicates the dat
 [^3]: Sent only in the first transmission after a FOTA attempt (either successful or unsuccessful)
 [^4]: The configuration triggers the reboot of the device
 [^5]: Misconfiguring this parameter may break connectivity and render the device permanently unreachable. Proceed only if you fully understand the implications
-[^6]: The low and high alarm condition are only generated on the main measure for each device: temperature for VIDI Temp, pressure for *VIDI Pressure*, level for *VIDI Level*, flow rate for *VIDI Flow*
+[^6]: The low and high alarm condition are only generated on the main measure for each device: temperature for *VIDI Temperature*, pressure for *VIDI Pressure*, level for *VIDI Level*, flow rate for *VIDI Flow*
