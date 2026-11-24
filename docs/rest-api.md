@@ -6,9 +6,6 @@ The two interfaces are complementary:
 - **REST API** is used for management and on-demand operations, for example:
   - enrolling, editing and removing devices
   - scheduling downlinks (commands and configurations), following their status and canceling them
-  - reading the history of uplinks, or following them live through Server-Sent Events
-  - reading device details, FOTA status and installation data
-  - translating a raw CBOR payload into JSON
 
 ## Base URL
 The API is reachable on the same address and port as the web interface, under the path `/api`:
@@ -43,7 +40,7 @@ An API Token is a long-lived token, bound to a set of permissions, that can be r
 
 | Permission | Allows to |
 | ---------- | --------- |
-| Can read devices | Read devices, uplink history, live uplinks, downlink history, FOTA status, translate CBOR payloads |
+| Can read devices | Read devices, downlink history, FOTA status |
 | Can write devices | Enroll, edit and remove devices |
 | Can send downlink | Schedule and cancel downlinks |
 
@@ -90,13 +87,8 @@ Main groups of endpoints:
 | Path | Purpose |
 | ---- | ------- |
 | `/api/devices` | List, enroll, edit and remove devices; hardware and device types |
-| `/api/devices/{serial}/uplinklogs` | History of the uplinks received from a device |
-| `/api/devices/{serial}/uplinklogsstream` | Live uplinks of a device (Server-Sent Events) |
-| `/api/devices/update` | Live updates of the devices, sent when a device changes (Server-Sent Events) |
 | `/api/devices/{serial}/downlink` | Schedule, list and cancel downlinks |
 | `/api/devices/{serial}/fota` | FOTA status of a device |
-| `/api/devices/{serial}/installation` | Installation data and history |
-| `/api/devices/cbor` | Translate a CBOR payload into JSON |
 | `/api/oauth2` | OAuth2 token and refresh |
 
 The remaining endpoints (users, API tokens, applications, firmware, settings, mobile devices) are used by the web interface and require administrative permissions.
