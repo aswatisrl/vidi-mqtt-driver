@@ -162,3 +162,6 @@ Example:
 #### Service `coap-gateway`
 In case you disabled the anonymous login in the service *vernemq*, populate the `MQTT_USERNAME` and `MQTT_PASSWORD` environment variables with the username and password you specified above.
 
+### Next steps
+Once the configuration is complete, continue with [First launch](first-launch.md) to start the driver for the first time.
+
