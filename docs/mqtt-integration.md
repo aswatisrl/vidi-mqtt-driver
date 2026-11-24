@@ -75,7 +75,7 @@ The JSON contains the following fields:
 | 30 | VIDI Level | VIDI Level with submersible probe |
 | 31 | VIDI Transmitter | VIDI Leak |
 | 32 | VIDI Positioner | VIDI Positioner 2.0 |
-| 33 | VIDI Positioner | VIDI Weather Shield |
+| 33 | VIDI Positioner | VIDI Positioner (Hydrant Guard) |
 
 ## Scheduling downlinks
 Downlinks are used to send commands and configurations to the device. Downlinks can be scheduled in two ways: via web interface or programmatically, using the REST APIs.
