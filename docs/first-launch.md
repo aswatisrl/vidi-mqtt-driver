@@ -1,6 +1,6 @@
 # First launch
 
-⚠️ This section assumes you have successfully completed the [Installation](docs/installation.md) steps
+⚠️ This section assumes you have successfully completed the [Installation](installation.md) steps
 
 Launch the driver with the command
 ```console
