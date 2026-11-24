@@ -38,22 +38,22 @@ The default login credentials are:
 **⚠️ Important:** Upon first login, change the password immediately. Click the profile icon at the bottom of the left sidebar and set a new password.
 
 ### CoAP Gateway configuration
-The CoAP Gateway status is displayed on the upper-right corner of the page. At this point, the gateway will be shown as **inactive**, as it has not been configured yet.   
-The CoAP Gateway requires an API Token to communicate with the API Server.  
+The CoAP Gateway status is displayed on the upper-right corner of the page. At this point, the gateway will be shown as **inactive**, as it has not been configured yet.
+The CoAP Gateway requires an API Token to communicate with the API Server.
 
 1. Open the left side menu and select **API Tokens**.
 2. Click **Generate new token**.
 3. Fill in the fields as follows:
    - **Token name:** A descriptive name to identify the token later, e.g., `coap-gateway`.
-   - **Expiration:** Choose according to your security policies.  
+   - **Expiration:** Choose according to your security policies.
      If you do **not** choose *No expiration*, you will need to regenerate the token before it expires.
    - **Permissions:** Enable *Can read devices* and *Can write devices*. Leave all other permissions unchecked.
 4. Click **Generate token** and **store the token securely**, as it cannot be viewed again later.
 
 ### Updating the Configuration
-Edit the `compose.yaml` file and locate the *coap-gateway* service section.  
+Edit the `compose.yaml` file and locate the *coap-gateway* service section.
 Edit the line `API_TOKEN=<API_TOKEN>` in the *coap-gateway* section replacing `<API_TOKEN>` with the token you just created.
-Finally, restart the container to apply the changes:
+Finally, restart the containers to apply the changes:
 ```console
 docker compose up -d coap-gateway
 ```
@@ -82,13 +82,13 @@ You can also add a textual note for each device to simplify asset management.
 
 Access the *Devices* page on the web interface menu. You can add one device manually (*Add new device* button) or import multiple devices by providing a CSV file (*Add devices from file* button).
 
-Alternatively, devices can be enrolled via the REST APIs. See the *API Docs* page on the web interface menu for instructions.
+Alternatively, devices can be enrolled via the REST APIs, see [REST API](rest-api.md) and the *API Docs* page on the web interface menu.
 
 ## Backup
 
 The database stores the OSCORE context for each device. The context is the local set of information elements necessary to carry out the cryptographic operations. In case of a data loss, devices will no longer be able to communicate with the CoAP server. The device will receive a `401 Unauthorized` status, and it will be forced to start a new join procedure on the device.
 
-For this reason, we strongly advise configuring an automatic daily backup of the database. 
+For this reason, we strongly advise configuring an automatic daily backup of the database.
 Open the crontab with the command:
 ```console
 crontab -e
