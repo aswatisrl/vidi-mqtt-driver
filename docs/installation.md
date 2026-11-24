@@ -142,6 +142,14 @@ Example:
     - A list of the serial numbers of the devices currently enrolled in the Driver. The list is necessary to prevent unauthorized use of the software
 
   No other information — such as user data, device payloads, or metadata (e.g., notes, firmware versions, operators, keys) — is transmitted to the license server.
+- At startup, the API Server checks the configuration and writes a warning in its log (without showing the secret values) if:
+    - `BASE_URL` is not set, still contains the placeholder or points to a local address
+    - `DB_PASSWORD` still contains the `<MYSQL_USER_PASSWORD>` placeholder
+    - `JWT_PRIVATE_KEY` is not set, still contains the placeholder or is shorter than 32 characters
+    - `ED25519_PRIVATE_KEY` is not set, still contains the placeholder or is not a 32-byte key encoded in Base64
+    - neither `LICENSE_TOKEN` nor `LICENSE_KEY` is set, or the one in use still contains the placeholder. Note that `LICENSE_TOKEN` takes precedence: if you use a `LICENSE_KEY`, the `LICENSE_TOKEN` line must be removed
+
+  The API Server starts anyway: check the log after the first start with `docker compose logs api-server`.
 
   At startup, if the application cannot reach the license server, it will stop immediately. During the daily validation of the license, if the software cannot contact the license server (for example, due to network issues), it will keep using the last valid token. If the problem persists and the license cannot be validated before the token expires (7 days) the software will stop working.
 
