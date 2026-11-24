@@ -12,10 +12,10 @@ CoAP (Constrained Application Protocol) is a lightweight, RESTful communication 
 MQTT (Message Queuing Telemetry Transport) is a lightweight, publish-subscribe-based messaging protocol. The publish-subscribe pattern enables components to be decoupled and scale efficiently.
 
 ### Getting started
-- [Installation](installation.md)
-- [First launch](first-launch.md)
-- [MQTT Integration](mqtt-integration.md)
-- [REST API](rest-api.md)
+- [Installation](docs/installation.md)
+- [First launch](docs/first-launch.md)
+- [MQTT Integration](docs/mqtt-integration.md)
+- [REST API](docs/rest-api.md)
 
 ### Device families
-- [VIDI Transmitter](vidi-transmitter.md)
+- [VIDI Transmitter](docs/vidi-transmitter.md)
