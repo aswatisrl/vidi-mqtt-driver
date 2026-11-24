@@ -2,7 +2,7 @@
 
 The VIDI MQTT Driver is a network bridge that enables communication between the VIDI Devices and 3rd party applications.
 The driver manages the low-level binary communication (CoAP) between VIDI Devices and the server, enabling third-party applications to interact with the devices using high-level protocols and formats such as MQTT and JSON.
-Third-party applications can also manage the devices through a REST API: enroll them, schedule commands and configurations, read the history of the received data.
+Third-party applications can also manage the devices through a REST API: enroll them and schedule commands and configurations.
 By abstracting the low-level communication, the driver makes it transparent to third-party applications, simplifying and accelerating connector development.
 
 ### CoAP
