@@ -82,12 +82,14 @@ Downlinks are used to send commands and configurations to the device. Downlinks 
 ️️
 ⚠️ Given the nature of the devices, the dispatch of the command is not immediate. The commands are put in a queue by the driver and they will be sent to the device inside the response to the next transmission.
 
+Devices configured in *always-on* mode keep a channel open towards the driver: when a downlink is scheduled and the device is reachable, the driver asks it to transmit immediately, so the command is delivered within a few seconds. If the device is not reachable at that moment, the command stays in the queue and is sent with the next transmission, as for any other device.
+
 ### Downlink states
 Once created, the downlink can assume the following states:
 | code | name | description |
 | ---- | ---- | ----------- |
 | 0 | Pending, waiting for the device to come online | This is the initial state. The downlink is in the driver queue. While it is pending, it can be canceled, either through the web interface (pressing the button *Cancel* in the column *Actions*) or via REST APIs |
-| 1 | Canceled by the user | The downlink has been canceled while in *Pending* state |
+| 1 | Canceled | The downlink has been removed from the queue without being sent: canceled by the user while in *Pending* state, replaced by a newer downlink setting the same parameters, or expired (see `ttl` below) |
 | 2 | Sent, waiting for acknowledgement | The driver has just sent the downlink to the device and it is waiting for confirmation |
 | 3 | Sent and acknowledged | The downlink has been successfully dispatched and accepted by the device |
 | 4 | The command was not accepted by the device | The downlink has been successfully dispatched to the device but the content was not accepted |
@@ -119,10 +121,23 @@ The table shows for each downlink:
 ### Using API
 Downlinks can also be scheduled using REST APIs, in order to enable automation, scalability and integration to already existing systems.
 
-Open the web interface and navigate to the menu **API Docs**.
-The page provides the necessary documentation, in OpenAPI format, to execute the API request to the driver.
+See [REST API](rest-api.md) for the base URL, how to obtain a token and an example request. The complete reference of the endpoints is available in the web interface, menu **API Docs**, in OpenAPI format.
 
-⚠️ Note: each endpoint requires a Bearer token. Clients must include the header: `Authorization: Bearer <token>`
+⚠️ Note: each endpoint requires a Bearer token. Clients must include the header: `Authorization: Bearer <token>`. The token needs the *Can send downlink* permission
+
+Commands that make sense only if executed right away (for example switching a pump on) can be scheduled with an optional `ttl` field, in seconds (from 1 to 3600), inside the `command` object. If the command has not been sent to the device within that time it expires: at the expiration time it is removed from the queue and the client is notified with status `1` (*Canceled*, see [Downlink states](#downlink-states)). The expiration time is computed by the driver when the request is received and is returned in the `expires_at` field of the response. Without `ttl` the command never expires.
+
+```json
+{
+	"timestamp": 1792074480,
+	"command": {
+		"id": "0219dfb3-00a8-40e6-90ea-1f83e807e885",
+		"callback": "https://example.com/callback",
+		"data": "{\"pump\": 1}",
+		"ttl": 120
+	}
+}
+```
 
 If the client provides a callback URL, the driver will notify the client with the status of the downlink.
 When the downlink status changes, the driver will execute an HTTP POST request to the client callback URL.
